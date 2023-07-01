@@ -55,7 +55,9 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1d" }
     );
     res.setHeader("token", token);
-    res.json({ token, email, id: user._id, name: user.name, role: user.role });
+    const userData = user;
+    delete userData.password;
+    res.json({ token, userData });
   });
 });
 
