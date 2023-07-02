@@ -69,7 +69,7 @@ def crop_image(out, img):
   x2 = int(out[0][2])
   y1 = int(out[0][1])
   y2 = int(out[0][3])
-  print(x1, x2, y1, y2)
+  # print(x1, x2, y1, y2)
   # Cropping an image
   cropped_image = img[y1:y2, x1:x2]
 
