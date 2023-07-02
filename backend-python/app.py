@@ -42,7 +42,6 @@ def upload_image():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pred=inference(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print("prediction", pred)
         return pred, 201
     else:
         return "Invalid file extension. Only JPG, JPEG, PNG, and GIF are allowed.", 400
