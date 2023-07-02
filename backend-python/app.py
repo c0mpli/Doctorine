@@ -4,6 +4,8 @@ from flask import Flask, request
 from werkzeug.utils import secure_filename
 from yolov7.setup import inference
 import os.path
+from flask_cors import CORS, cross_origin
+
 
 import pandas as pd
 # import joblib
@@ -28,6 +30,8 @@ def allowed_file(filename):
 	
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/predict/', methods = ['POST'])
@@ -42,7 +46,32 @@ def upload_image():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pred=inference(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return pred, 201
+        hr = int(pred['HR'])
+        rr = int(pred['RR'])
+        alert=""
+        cause=[]
+        if 60<=hr<=100 and 10<=rr<=20:
+            alert+="Safe"
+        elif (50<=hr<60 or 100<hr<=110) or  (8<=rr<10 or 20<rr<=24):
+            alert+="Warning"
+            if(50<=hr<60 or 100<hr<=110):
+                cause.append("HR")
+            if(8<=rr<10 or 20<rr<=24):
+                cause.append("RR")
+        else:
+            alert+="Danger"
+            if(hr<40 or hr>120):
+                cause.append("HR")
+            if(rr<8 or rr>24):
+                cause.append("RR")
+
+        res = {
+            "HR": hr,
+            "RR": rr,
+            "alert": alert,
+            "cause": cause
+        }
+        return res, 201
     else:
         return "Invalid file extension. Only JPG, JPEG, PNG, and GIF are allowed.", 400
 
