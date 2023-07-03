@@ -115,7 +115,7 @@ export default function WelcomeScreen() {
             <Text className="text-white font-semibold">
               Already have an account?
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text className="font-semibold text-yellow-400"> Log In</Text>
             </TouchableOpacity>
           </View>
