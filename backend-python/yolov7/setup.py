@@ -124,7 +124,7 @@ def inference(image_path: str):
         }
 
     #l = ['HR', 'SPO2', 'RR', 'SBP', 'DBP', 'MAP']
-    l = ['HR','RR']
+    l = ['HR','RR', 'SBP']
 
     for i in l:
         if not temp.get(i):

@@ -68,6 +68,7 @@ def upload_image():
         res = {
             "HR": hr,
             "RR": rr,
+            "SBP": int(pred['SBP']),
             "alert": alert,
             "cause": cause
         }
