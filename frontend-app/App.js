@@ -1,17 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import AppNavigation from './src/navigation/appNavigation';
-
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import HomeScreen from './screens/HomeScreen';
-// import GameStore from './screens/gameStore';
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native";
+import React from "react";
+import HomeScreen from "./src/screens/HomeScreen";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
 // const Tab = createBottomTabNavigator();
-
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <AppNavigation />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Screen
+          name="Home"
+          options={{ headerShown: false }}
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          name="Welcome"
+          options={{ headerShown: false }}
+          component={WelcomeScreen}
+        />
+        <Stack.Screen
+          name="Login"
+          options={{ headerShown: false }}
+          component={LoginScreen}
+        />
+        <Stack.Screen
+          name="SignUp"
+          options={{ headerShown: false }}
+          component={SignUpScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
