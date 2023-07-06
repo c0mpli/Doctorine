@@ -95,30 +95,24 @@ export default function WelcomeScreen() {
       className="flex-1"
       style={{ backgroundColor: themeColors.bg }}
     >
-      <View className="flex-1 flex justify-around my-4">
-        <Text className="text-white font-bold text-4xl text-center">
-          Let's Get Started!
-        </Text>
-        <View className="flex-row justify-center">
+      <View className="flex-row justify-center">
           <SvgImage />
         </View>
-        <View className="space-y-4">
+      <View className="flex-1 flex justify-around my-3">
+        <Text className="text-white font-bold text-2xl text-center">
+          WELCOME TO DOCTORINE
+        </Text>
+        
+        <View className="space-y-10 py-7">
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUp")}
-            className="py-3 bg-black mx-7 rounded-xl "
+            onPress={() => navigation.navigate("Login")}
+            className="py-4 bg-black mx-auto rounded-3xl w-48 "
           >
             <Text className="text-xl font-bold text-center text-white">
-              Sign Up
+              Get Started
             </Text>
           </TouchableOpacity>
-          <View className="flex-row justify-center">
-            <Text className="text-white font-semibold">
-              Already have an account?
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text className="font-semibold text-yellow-400"> Log In</Text>
-            </TouchableOpacity>
-          </View>
+          
         </View>
       </View>
     </SafeAreaView>

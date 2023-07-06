@@ -6,6 +6,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
+import Analytics from "./src/screens/Analytics";
 // const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -32,6 +33,11 @@ export default function App() {
           name="SignUp"
           options={{ headerShown: false }}
           component={SignUpScreen}
+        />
+        <Stack.Screen
+          name="Chart"
+          options={{ headerShown: false }}
+          component={Analytics}
         />
       </Stack.Navigator>
     </NavigationContainer>
