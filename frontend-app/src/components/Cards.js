@@ -56,7 +56,7 @@ const Cards=({name,room,alert,hr,rr,bp})=>{
     const HRImage = () => <SvgXml xml={HR} width="50%" />;
     return(
             
-            <TouchableOpacity className="rounded-2xl ml-7 mb-7 border-gray-300 shadow-md w-[300px] h-[120px] " style={{backgroundColor:themeColors.semiblack}}
+            <TouchableOpacity className="rounded-2xl container mx-auto mb-7 border-gray-300 shadow-md w-[300px] h-[120px] " style={{backgroundColor:themeColors.semiblack}}
             onPress={() => navigation.navigate("Chart")}
             >
                 

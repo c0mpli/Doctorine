@@ -10,7 +10,7 @@ import { LineChart  } from 'react-native-chart-kit';
 
 
 
-const Chart=(chart)=>{
+const Chart=({chart})=>{
     
     return(
         <View className="ml-5 static">

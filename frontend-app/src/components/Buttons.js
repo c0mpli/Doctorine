@@ -1,7 +1,10 @@
-import { View,TouchableOpacity,Platform} from 'react-native'; 
+import { View,TouchableOpacity} from 'react-native'; 
 import { SvgXml } from "react-native-svg";
-import {Camera} from 'expo-camera';
 import { useState,useEffect,useRef } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
+
+
 
 export const Profile=()=>{
     const icon=`<svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,12 +14,26 @@ export const Profile=()=>{
     `;
     const Icon = () => <SvgXml xml={icon} width="100%"/>;
     return(
-        <TouchableOpacity className="relative w-20 h-20 rounded-full bg-white absolute top-12 right-6">
+        <TouchableOpacity className="z-2 absolute w-20 h-20 rounded-full bg-white right-4 -top-32 ">
         <View className="top-7">
         <Icon/>
         </View>
       </TouchableOpacity>
+      
     )
+}
+
+
+export const Back=()=>{
+  const navigation = useNavigation();
+  return(
+    <TouchableOpacity
+            className="z-2 fixed w-10 h-10 rounded-full bg-white left-4 -top-32 " 
+            onPress={() => navigation.goBack()}
+          >
+            <View className="top-2.5 ml-2"><ArrowLeftIcon size="20" color="black" /></View>
+          </TouchableOpacity>
+  )
 }
 
 export const Scan=()=>{
@@ -26,47 +43,16 @@ export const Scan=()=>{
 </svg>
 `
 const ScanImage=()=><SvgXml xml={scanner} width="100%" />;
-
-
-const [hasPermission, setHasPermission] = useState(null);
-const cameraRef = useRef(null);
-
-useEffect(() => {
-  (async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
-  })();
-}, []);
-
-const takePicture = async () => {
-  if (cameraRef.current) {
-    const photo = await cameraRef.current.takePictureAsync();
-    console.log(photo);
-    // You can do something with the captured photo here, such as saving it or displaying it.
-  }
-};
-
-if (hasPermission === null) {
-  return <View />;
-}
-
-if (hasPermission === false) {
-  return <Text>No access to camera</Text>;
-}
-
-
-
+const navigation = useNavigation();
 
   return(
-    <>
-    <Camera type={Camera.Constants.Type.back} ref={cameraRef}/>
-    <TouchableOpacity className="relative w-16 h-16 rounded-full bg-blue-500 absolute bottom-0 right-5" onPress={takePicture}>
+   
+    <TouchableOpacity className="relative w-16 h-16 rounded-full bg-blue-500 absolute bottom-0 right-5" onPress={() => navigation.navigate("ScannerHome")}>
       <View className="ml-0.5 my-5 mr-0.5">
         <ScanImage/>
       </View>
 
     </TouchableOpacity>
-    </>
   )
 }
 

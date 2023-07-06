@@ -1,16 +1,20 @@
-import { View, Text,ScrollView,Image } from 'react-native'
+import { View, Text,ScrollView,Image ,TouchableOpacity} from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Cards from '../components/Cards'
-import {Profile, Scan} from '../components/Buttons'
+import { Scan} from '../components/Buttons'
+import TopBar from '../components/TopBar';
+import { ArrowLeftIcon } from "react-native-heroicons/solid";
 
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="relative">
       <Text className="mt-7 ml-6 font-normal text-[32px] mb-0 py-0">Your</Text>
       <Text className="ml-6 font-bold text-[32px] mb-8">Patients</Text>
-      <Profile />
+      
+      <TopBar home={true}/>
+      
       
       <ScrollView >
         <Cards key={"101"} name="Shristi Shetty" room="102" alert="safe"hr="92" rr="13" bp="98"/>

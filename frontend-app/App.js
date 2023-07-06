@@ -7,6 +7,8 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import Analytics from "./src/screens/Analytics";
+import Scanner from "./src/screens/Scanner";
+import Home from "./react-native-document-scanner-example/screens/Home";
 // const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -39,7 +41,14 @@ export default function App() {
           options={{ headerShown: false }}
           component={Analytics}
         />
+        <Stack.Screen 
+        name="Scanner" 
+        options={{ headerShown: false }} 
+        component={Scanner} />
       </Stack.Navigator>
+      <Stack.Screen name="ScannerHome" 
+      options={{ headerShown: false }} 
+      component={Home} />
     </NavigationContainer>
   );
 }
