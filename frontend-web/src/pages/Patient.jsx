@@ -6,14 +6,17 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
-function Dashboard() {
-  const [modal, setModal] = React.useState(false);
+
+function Patients(){
+    const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-  const [address, setAddress] = React.useState("");
+
+//   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
-    if (!addName || !address) {
+    // if (!addName || !address) {
+        if (!addName) {
       alert("Please fill all the fields");
       return;
     }
@@ -23,7 +26,7 @@ function Dashboard() {
         {
           address: {
             name: addName,
-            address: address,
+            // address: address,
           },
           user: user?.id,
         },
@@ -34,12 +37,14 @@ function Dashboard() {
         alert("Added Successfully");
         window.location.reload();
       });
-    console.log(addName, address);
+    // console.log(addName, address);
+    console.log(addName);
     setModal(false);
     setAddName("");
-    setAddress("");
+    // setAddress("");
   };
-  return (
+
+  return(
     <>
       {modal && (
         <div className="modalBackground">
@@ -54,7 +59,7 @@ function Dashboard() {
               </button>
             </div>
             <div className="title">
-              <h1>Add address</h1>
+              <h1>Add Patient</h1>
               <input
                 placeholder="Name"
                 value={addName}
@@ -62,13 +67,13 @@ function Dashboard() {
                   setAddName(e.target.value);
                 }}
               />
-              <input
+              {/* <input
                 placeholder="Address"
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
-              />
+              /> */}
             </div>
             <div className="footer">
               <button
@@ -85,14 +90,14 @@ function Dashboard() {
       <div className="AppGlass2">
         <Sidebar />
         <div className="ContentWrapper">
-          <ProfileHeader title={"Dashboard"} />
+          <ProfileHeader title={"Manage Patients"} />
           <div className="AppGlass3">
-            <MainDash name="main" setModal={setModal} />
+            <MainDash name="Patients" setModal={setModal} />
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Dashboard;
+export default Patients;

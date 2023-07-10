@@ -6,11 +6,13 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
-function Dashboard() {
-  const [modal, setModal] = React.useState(false);
+
+function Doctors(){
+    const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
+  
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     if (!addName || !address) {
@@ -19,7 +21,7 @@ function Dashboard() {
     }
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/add-address`,
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/addDoctor`,
         {
           address: {
             name: addName,
@@ -29,17 +31,29 @@ function Dashboard() {
         },
         { headers: { token: user?.token } }
       )
+    // axios
+    // .get(
+    //   `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+    //   {
+    //    params:{
+    //     hospitalId: 
+    //    }
+    //   },
+    //   { headers: { token: user?.token } }
+    // )
       .then((response) => {
         fetchAddressDetails(user?.id, user?.token);
         alert("Added Successfully");
         window.location.reload();
       });
     console.log(addName, address);
+    console.log(addName);
     setModal(false);
     setAddName("");
     setAddress("");
   };
-  return (
+
+  return(
     <>
       {modal && (
         <div className="modalBackground">
@@ -54,7 +68,7 @@ function Dashboard() {
               </button>
             </div>
             <div className="title">
-              <h1>Add address</h1>
+              <h1>Add Doctor</h1>
               <input
                 placeholder="Name"
                 value={addName}
@@ -62,13 +76,13 @@ function Dashboard() {
                   setAddName(e.target.value);
                 }}
               />
-              <input
+              {/* <input
                 placeholder="Address"
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
-              />
+              /> */}
             </div>
             <div className="footer">
               <button
@@ -85,14 +99,14 @@ function Dashboard() {
       <div className="AppGlass2">
         <Sidebar />
         <div className="ContentWrapper">
-          <ProfileHeader title={"Dashboard"} />
+          <ProfileHeader title={"Manage Doctors"} />
           <div className="AppGlass3">
-            <MainDash name="main" setModal={setModal} />
+            <MainDash name="Doctors" setModal={setModal} />
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Dashboard;
+export default Doctors;

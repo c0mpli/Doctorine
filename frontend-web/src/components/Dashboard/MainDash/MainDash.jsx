@@ -1,21 +1,22 @@
 import React from "react";
-import Cards from "../Cards/Cards";
+// import Cards from "../Cards/Cards";
 import Programs from "../Programs/Programs";
 import "./MainDash.css";
+import Card from '../Card/Card'
 
-const MainDash = (props) => {
+const MainDash = ({setModal, name}) => {
   return (
     <>
       <div className="MainDash">
-        <h2>General Stats</h2>
-        <Cards />
+        <h2>Total {name}</h2>
+        <Card />
         <div className="maindash-heading-wrapper">
-          <h2>Your Addresses</h2>
+          <h2>Your {name}</h2>
           <button
             className="standard-button"
-            onClick={() => props.setModal(true)}
+            onClick={() => setModal(true)}
           >
-            Add address
+            Add {name}
           </button>
         </div>
         <Programs />

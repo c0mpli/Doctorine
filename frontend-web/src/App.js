@@ -8,6 +8,9 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import { useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 import Signup from "./pages/Signup";
+import Doctors from "./pages/Doctors";
+import Nurses from "./pages/Nurses";
+import Patients from "./pages/Patient";
 
 function App() {
   const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("theme")));
@@ -32,6 +35,18 @@ function App() {
             <Route
               path="/dashboard"
               element={user ? <Dashboard /> : <Login />}
+            />
+            <Route
+              path="/doctor"
+              element={user ? <Doctors /> : <Login />}
+            />
+            <Route
+              path="/nurse"
+              element={user ? <Nurses /> : <Login />}
+            />
+            <Route
+              path="/patient"
+              element={user ? <Patients /> : <Login />}
             />
             <Route path="/signup" element={user ? <Dashboard /> : <Signup />} />
             <Route path="/login" element={user ? <Dashboard /> : <Login />} />

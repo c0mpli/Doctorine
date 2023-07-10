@@ -1,10 +1,11 @@
 // Sidebar imports
 import {
   UilEstate,
-  UilUsersAlt,
-  UilPackage,
-  UilSetting,
-  UilUser,
+  UilUsersAlt
+  // ,
+  // UilPackage,
+  // UilSetting,
+  // UilUser,
 } from "@iconscout/react-unicons";
 
 // Sidebar Data
@@ -24,8 +25,26 @@ export const SidebarData = [
   },
   {
     key: 3,
-    icon: UilSetting,
-    heading: "Settings",
-    link: "/settings",
+    icon: UilUsersAlt,
+    heading: "Manage Doctors",
+    link: "/doctor",
   },
+  {
+    key: 4,
+    icon: UilUsersAlt,
+    heading: "Manage Nurses",
+    link: "/nurse",
+  },
+  {
+    key: 5,
+    icon: UilUsersAlt,
+    heading: "Manage Patients",
+    link: "/patient",
+  },
+  // {
+  //   key: 4,
+  //   icon: UilSetting,
+  //   heading: "Settings",
+  //   link: "/settings",
+  // },
 ];
