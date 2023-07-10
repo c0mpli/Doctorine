@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      env.jwtSecret,
+      process.env.jwtSecret,
       { expiresIn: "1d" }
     );
     res.setHeader("token", token);
