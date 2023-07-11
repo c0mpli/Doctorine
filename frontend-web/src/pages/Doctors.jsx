@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
 import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
@@ -7,12 +7,13 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 
-function Doctors(){
-    const [modal, setModal] = React.useState(false);
+function Doctors() {
+  const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
-  
+  const [doctorData, setDoctorData] = React.useState();
+
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     if (!addName || !address) {
@@ -31,16 +32,6 @@ function Doctors(){
         },
         { headers: { token: user?.token } }
       )
-    // axios
-    // .get(
-    //   `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
-    //   {
-    //    params:{
-    //     hospitalId: 
-    //    }
-    //   },
-    //   { headers: { token: user?.token } }
-    // )
       .then((response) => {
         fetchAddressDetails(user?.id, user?.token);
         alert("Added Successfully");
@@ -53,7 +44,30 @@ function Doctors(){
     setAddress("");
   };
 
-  return(
+  function getDoctors() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+        {
+          params: {
+            id: user?.userData.hospitalId[0],
+          },
+        },
+        { headers: { token: user?.token } }
+      )
+      .then((response) => {
+        setDoctorData(response.data);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+  useEffect(() => {
+    getDoctors();
+  }, []);
+
+  return (
     <>
       {modal && (
         <div className="modalBackground">
@@ -101,12 +115,16 @@ function Doctors(){
         <div className="ContentWrapper">
           <ProfileHeader title={"Manage Doctors"} />
           <div className="AppGlass3">
-            <MainDash name="Doctors" setModal={setModal} />
+            <MainDash
+              name="Doctors"
+              setModal={setModal}
+              doctorData={doctorData}
+            />
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default Doctors;
