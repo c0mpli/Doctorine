@@ -7,6 +7,11 @@ const isAdmin = require("../middlewares/isAdmin");
 const axios = require("axios");
 const cron = require("node-cron");
 const Hospital = require("../models/Hospital");
+const Bed = require("../models/Bed");
+const FormData = require("form-data");
+const fs = require("fs");
+const multer = require("multer");
+const { json } = require("body-parser");
 
 router.post("/create", async (req, res) => {
   const { name, numberOfBeds, address, admins, doctors, nurses } = req.body;
@@ -275,5 +280,50 @@ router.post("/assignBed", async (req, res) => {
 });
 
 router.post("/removeBed", async (req, res) => {});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/"); // Specify the upload directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/addData", upload.single("image"), (req, res) => {
+  const { hospitalId, bedNo } = req.body;
+
+  if (!hospitalId) return res.status(400).send("No hospitalId in request body");
+  if (!bedNo) return res.status(400).send("No bedNo in request body");
+
+  const hospital = Hospital.findOne({ _id: hospitalId });
+  if (!hospital) return res.status(400).send("Hospital does not exist");
+
+  const bed = Bed.findOne({ hospitalId: hospitalId, bedNo: bedNo });
+  if (!bed) return res.status(400).send("Bed does not exist");
+
+  const user = User.findOne({ _id: bed.patientId });
+  if (!user) return res.status(400).send("User does not exist");
+
+  const imageFile = req.file;
+  if (!imageFile) return res.status(400).send("No image file in request body");
+
+  const formData = new FormData();
+  formData.append("file", fs.createReadStream(imageFile.path));
+  const data = axios
+    .post(`${process.env.FLASK_URI}/predict`, formData, {
+      headers: formData.getHeaders(),
+    })
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+      user.data.push(data);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+    });
+});
 
 module.exports = router;

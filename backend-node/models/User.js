@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: [],
   },
+  data: {
+    type: Object,
+    required: false,
+    default: {},
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
