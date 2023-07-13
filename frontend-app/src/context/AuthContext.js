@@ -19,8 +19,9 @@ export function AuthContextProvider({ children }) {
     user: null,
   });
   async function fetchDetails() {
-    const user = await JSON.parse(AsyncStorage.getItem("user"));
-    if (user) {
+    const userString = await AsyncStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
       dispatch({
         type: "LOGIN",
         payload: {
