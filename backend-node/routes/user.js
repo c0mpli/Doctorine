@@ -61,4 +61,9 @@ router.post("/login", async (req, res) => {
   });
 });
 
+router.get("/user", async (req, res) => {
+  const user = await User.findById(req.query.id);
+  res.json(user);
+});
+
 module.exports = router;

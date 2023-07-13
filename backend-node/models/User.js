@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     default: [],
   },
   data: {
-    type: Object,
+    type: Array,
     required: false,
     default: {},
   },

@@ -241,7 +241,7 @@ router.post("/deletePatient", async (req, res) => {
 });
 
 router.post("/assignBed", async (req, res) => {
-  const { hospitalId, patientId, nurseId, doctorId } = req.body;
+  const { hospitalId, patientId, nurseId, doctorId, bedNo } = req.body;
 
   const hospital = await Hospital.findOne({ _id: hospitalId });
   if (!hospital) return res.status(400).send("Hospital does not exist");
@@ -251,6 +251,7 @@ router.post("/assignBed", async (req, res) => {
     patientId: patientId,
     nurseId: nurseId,
     doctorId: doctorId,
+    bedNumber: bedNo,
   });
 
   const beds = hospital.beds;
@@ -259,24 +260,24 @@ router.post("/assignBed", async (req, res) => {
   await hospital.save();
 
   const nurse = await User.findOne({ _id: nurseId });
-  const nurses = nurse.beds;
+  const nurses = nurse.beds || [];
   nurses.push(bed._id);
   nurse.beds = nurses;
   await nurse.save();
 
   const doctor = await User.findOne({ _id: doctorId });
-  const doctors = doctor.beds;
+  const doctors = doctor.beds || [];
   doctors.push(bed._id);
   doctor.beds = doctors;
   await doctor.save();
 
   const patient = await User.findOne({ _id: patientId });
-  const patients = patient.beds;
+  const patients = patient.beds || [];
   patients.push(bed._id);
   patient.beds = patients;
   await patient.save();
 
-  return res.json(hospital);
+  return res.json({ bed, doctor, nurse, patient });
 });
 
 router.post("/removeBed", async (req, res) => {});
@@ -292,19 +293,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/addData", upload.single("image"), (req, res) => {
+router.post("/addData", upload.single("image"), async (req, res) => {
   const { hospitalId, bedNo } = req.body;
 
   if (!hospitalId) return res.status(400).send("No hospitalId in request body");
   if (!bedNo) return res.status(400).send("No bedNo in request body");
 
-  const hospital = Hospital.findOne({ _id: hospitalId });
+  const hospital = await Hospital.findOne({ _id: hospitalId });
   if (!hospital) return res.status(400).send("Hospital does not exist");
 
-  const bed = Bed.findOne({ hospitalId: hospitalId, bedNo: bedNo });
+  const bed = await Bed.findOne({ hospitalId: hospitalId, bedNumber: bedNo });
   if (!bed) return res.status(400).send("Bed does not exist");
 
-  const user = User.findOne({ _id: bed.patientId });
+  const user = await User.findOne({ _id: bed.patientId });
   if (!user) return res.status(400).send("User does not exist");
 
   const imageFile = req.file;
@@ -312,14 +313,15 @@ router.post("/addData", upload.single("image"), (req, res) => {
 
   const formData = new FormData();
   formData.append("file", fs.createReadStream(imageFile.path));
-  const data = axios
+  await axios
     .post(`${process.env.FLASK_URI}/predict`, formData, {
       headers: formData.getHeaders(),
     })
-    .then((response) => {
+    .then(async (response) => {
       const data = response.data;
       console.log(data);
       user.data.push(data);
+      return res.json(await user.save());
     })
     .catch((error) => {
       res.status(500).json({ error: error });
