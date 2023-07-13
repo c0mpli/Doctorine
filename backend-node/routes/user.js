@@ -3,6 +3,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const Bed = require("../models/Bed");
 const isUser = require("../middlewares/isUser");
 // const axios = require("axios");
 // const cron = require("node-cron");
@@ -64,6 +65,14 @@ router.post("/login", async (req, res) => {
 router.get("/user", async (req, res) => {
   const user = await User.findById(req.query.id);
   if (!user) return res.status(400).send("User not found");
+
+  const beds = user.bedId;
+  const data = [];
+  for (let i = 0; i < beds.length; i++) {
+    const bed = await Bed.findById(beds[i]);
+    data.push(bed.bedNumber);
+  }
+  user.bedId = data;
   res.json(user);
 });
 
