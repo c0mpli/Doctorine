@@ -6,9 +6,7 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
-import {useLocation } from 'react-router-dom';
-
-
+import { useLocation } from "react-router-dom";
 
 function Doctors() {
   const [modal, setModal] = React.useState(false);
@@ -19,7 +17,7 @@ function Doctors() {
 
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
-    if (!addName ) {
+    if (!addName) {
       alert("Please fill all the fields");
       return;
     }
@@ -27,9 +25,8 @@ function Doctors() {
       .post(
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addDoctor`,
         {
-          address: {
-            name: addName
-          },
+          email: addName,
+
           user: user?.id,
         },
         { headers: { token: user?.token } }
@@ -57,6 +54,7 @@ function Doctors() {
       )
       .then((response) => {
         setDoctorData(response.data);
+        console.log(response.data);
       })
       .catch((err) => {
         alert(err);
@@ -91,7 +89,6 @@ function Doctors() {
                   setAddName(e.target.value);
                 }}
               />
-
             </div>
             <div className="footer">
               <button
@@ -113,7 +110,7 @@ function Doctors() {
             <MainDash
               name="Doctors"
               setModal={setModal}
-              doctorData={doctorData}
+              data={doctorData}
               location={location.pathname}
             />
           </div>

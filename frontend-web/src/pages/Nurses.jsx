@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
 import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
@@ -7,17 +7,17 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 
-function Nurses(){
-    const [modal, setModal] = React.useState(false);
+function Nurses() {
+  const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-//   const [address, setAddress] = React.useState("");
+  //   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const [nurseData, setNurseData] = React.useState();
 
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     // if (!addName || !address) {
-        if (!addName) {
+    if (!addName) {
       alert("Please fill all the fields");
       return;
     }
@@ -25,18 +25,20 @@ function Nurses(){
       .post(
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addNurse`,
         {
-          address: {
-            name: addName,
-            // address: address,
-          },
+          email: addName,
+          // address: address,
           user: user?.id,
         },
+
         { headers: { token: user?.token } }
       )
       .then((response) => {
         fetchAddressDetails(user?.id, user?.token);
         alert("Added Successfully");
         window.location.reload();
+      })
+      .catch((err) => {
+        alert(err);
       });
     // console.log(addName, address);
     console.log(addName);
@@ -68,7 +70,7 @@ function Nurses(){
     getNurses();
   }, []);
 
-  return(
+  return (
     <>
       {modal && (
         <div className="modalBackground">
@@ -103,7 +105,6 @@ function Nurses(){
               <button
                 onClick={() => {
                   handleSubmit();
-
                 }}
               >
                 Add
@@ -117,15 +118,12 @@ function Nurses(){
         <div className="ContentWrapper">
           <ProfileHeader title={"Manage Nurses"} />
           <div className="AppGlass3">
-            <MainDash 
-              name="Nurses"  
-              setModal={setModal} 
-              nurseData={nurseData}/>
+            <MainDash name="Nurses" setModal={setModal} data={nurseData} />
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default Nurses;

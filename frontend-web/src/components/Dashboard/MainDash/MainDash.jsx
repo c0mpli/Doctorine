@@ -4,11 +4,10 @@ import Programs from "../Programs/Programs";
 import "./MainDash.css";
 import Card from "../Card/Card";
 
-const MainDash = ({ data, setModal, name ,location}) => {
+const MainDash = ({ data, setModal, name, location }) => {
   return (
     <>
       <div className="MainDash">
-        
         <div className="maindash-heading-wrapper">
           <h2>Your {name}</h2>
           <button className="standard-button" onClick={() => setModal(true)}>
