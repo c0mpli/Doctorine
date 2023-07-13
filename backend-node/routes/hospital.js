@@ -26,9 +26,42 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/getHospital", async (req, res) => {
-  const { hospitalId } = req.params;
-  const hospital = await Hospital.findOne({ _id: hospitalId });
+  const hospitalId = req.query.id;
+  const hospital = await Hospital.findById(hospitalId);
   if (!hospital) return res.status(400).send("Hospital does not exist");
+
+  //get all admins
+  const admins = [];
+  for (let i = 0; i < hospital.admins.length; i++) {
+    const admin = await User.findById(hospital.admins[i]);
+    admins.push(admin);
+  }
+  hospital.admins = admins;
+
+  //get all doctors
+  const doctors = [];
+  for (let i = 0; i < hospital.doctors.length; i++) {
+    const doctor = await User.findById(hospital.doctors[i]);
+    doctors.push(doctor);
+  }
+  hospital.doctors = doctors;
+
+  //get all nurses
+  const nurses = [];
+  for (let i = 0; i < hospital.nurses.length; i++) {
+    const nurse = await User.findById(hospital.nurses[i]);
+    nurses.push(nurse);
+  }
+  hospital.nurses = nurses;
+
+  //get all patients
+  const patients = [];
+  for (let i = 0; i < hospital.patients.length; i++) {
+    const patient = await User.findById(hospital.patients[i]);
+    patients.push(patient);
+  }
+  hospital.patients = patients;
+
   return res.json(hospital);
 });
 
