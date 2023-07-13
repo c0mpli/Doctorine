@@ -63,6 +63,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/user", async (req, res) => {
   const user = await User.findById(req.query.id);
+  if (!user) return res.status(400).send("User not found");
   res.json(user);
 });
 
