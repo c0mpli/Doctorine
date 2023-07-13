@@ -16,12 +16,6 @@ export const SidebarData = [
   },
 
   {
-    key: 2,
-    icon: UilUsersAlt,
-    heading: "Addresses",
-    link: "/addressdetails",
-  },
-  {
     key: 3,
     icon: UilUserMd,
     heading: "Manage Doctors",

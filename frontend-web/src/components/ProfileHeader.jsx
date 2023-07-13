@@ -32,7 +32,7 @@ function ProfileHeader(props) {
       >
         <img src={ProfileImage} style={{ height: "2rem", width: "2rem" }} />
         <div className="profile-info">
-          <h2>{user?.email}</h2>
+          <h2>{user?.name}</h2>
         </div>
       </div>
     </div>

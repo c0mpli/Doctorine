@@ -8,6 +8,7 @@ import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Loader from "../../Loader";
 import usefetchAddressDetails from "../../../hooks/useFetchAddressDetails";
+import { UilBed } from '@iconscout/react-unicons';
 
 
 function Programs({ data , location}) {
@@ -41,17 +42,17 @@ function Programs({ data , location}) {
           return (
             <div className="card" key={key}>
               <div className="card-top">
-                <h1>{item.id}</h1>
+                <h1>{item.name}</h1>
+                <p>{item.email}</p>
+                
+                
               </div>
               <div className="card-bottom">
-                {/* <p>{item.description}</p>
-                <button
-                  onClick={() =>
-                    navigate("/addressdetails", { state: { address: key } })
-                  }
-                >
-                  View Details
-                </button> */}
+              <div className="bed">
+                <UilBed/>
+                <p style={{marginBottom:"0.3rem"}}> 5</p>
+                
+                </div>
                 <button
                   className="deleteButton"
                   onClick={(e) => handleDelete(key)}
@@ -80,3 +81,4 @@ function Programs({ data , location}) {
 }
 
 export default Programs;
+
