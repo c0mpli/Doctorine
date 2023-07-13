@@ -34,7 +34,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/predict/', methods = ['POST'])
+@app.route('/predict', methods = ['POST'])
 def upload_image():
     if len(request.files) ==0:
         return "File empty", 400
@@ -46,32 +46,41 @@ def upload_image():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         pred=inference(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        hr = int(pred['HR'])
-        rr = int(pred['RR'])
+        sbp=0
+        hr=0
+        rr=0
+        if 'HR' in pred:
+            hr = int(pred['HR'])
+        if 'RR' in pred:
+            rr = int(pred['RR'])
+        if 'SBP' in pred:
+            sbp=int(pred['SBP'])
         alert=""
         cause=[]
-        if 60<=hr<=100 and 10<=rr<=20:
-            alert+="Safe"
-        elif (50<=hr<60 or 100<hr<=110) or  (8<=rr<10 or 20<rr<=24):
-            alert+="Warning"
-            if(50<=hr<60 or 100<hr<=110):
-                cause.append("HR")
-            if(8<=rr<10 or 20<rr<=24):
-                cause.append("RR")
-        else:
-            alert+="Danger"
-            if(hr<40 or hr>120):
-                cause.append("HR")
-            if(rr<8 or rr>24):
-                cause.append("RR")
+        if(hr!=0 and rr!=0):
+            if 60<=hr<=100 and 10<=rr<=20:
+                alert+="Safe"
+            elif (50<=hr<60 or 100<hr<=110) or  (8<=rr<10 or 20<rr<=24):
+                alert+="Warning"
+                if(50<=hr<60 or 100<hr<=110):
+                    cause.append("HR")
+                if(8<=rr<10 or 20<rr<=24):
+                    cause.append("RR")
+            else:
+                alert+="Danger"
+                if(hr<40 or hr>120):
+                    cause.append("HR")
+                if(rr<8 or rr>24):
+                    cause.append("RR")
 
         res = {
             "HR": hr,
             "RR": rr,
-            "SBP": int(pred['SBP']),
+            "SBP": sbp,
             "alert": alert,
             "cause": cause
         }
+        print(res)
         return res, 201
     else:
         return "Invalid file extension. Only JPG, JPEG, PNG, and GIF are allowed.", 400

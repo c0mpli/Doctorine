@@ -1,13 +1,12 @@
 import { TouchableOpacity } from "react-native";
-import { View,Text } from "react-native";
+import { View, Text } from "react-native";
 import { themeColors } from "../theme";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 
-const Cards=({name,room,alert,hr,rr,bp})=>{
-    const alt={alert};
-    const navigation = useNavigation();
-    const RR=`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+const Cards = ({ name, room, alert, hr, rr, bp }) => {
+  const navigation = useNavigation();
+  const RR = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M11.8237 10.7875V15.3471C11.8237 16.3534 12.2294 17.3184 12.9517 18.03C13.674 18.7415 14.6536 19.1412 15.675 19.1412H18.2169C18.4621 19.1412 18.6972 19.0453 18.8705 18.8745C19.0439 18.7038 19.1412 18.4722 19.1412 18.2306V17.6108C19.1412 14.5961 18.0535 11.6795 16.0723 9.38189L13.6797 6.60715C13.5808 6.49248 13.4578 6.40036 13.3192 6.33719C13.1806 6.27401 13.0297 6.24129 12.8769 6.24129C12.7386 6.24129 12.6017 6.26813 12.4739 6.32027C12.3461 6.37242 12.23 6.44885 12.1322 6.5452C12.0344 6.64155 11.9568 6.75593 11.9038 6.88182C11.8509 7.00771 11.8237 7.14264 11.8237 7.2789V9.08015" fill="#FF8585"/>
     <path d="M16.0723 9.38189L13.6797 6.60715C13.5375 6.44224 13.3466 6.32524 13.1335 6.27254C12.9205 6.21983 12.6961 6.23406 12.4917 6.31322C12.6534 6.37575 12.7969 6.47672 12.9094 6.60715L15.302 9.38189C17.2833 11.6795 18.371 14.5961 18.371 17.6108V18.2306C18.371 18.4721 18.2736 18.7038 18.1003 18.8745C17.9269 19.0453 17.6918 19.1412 17.4467 19.1412H18.2169C18.4621 19.1412 18.6972 19.0453 18.8705 18.8745C19.0439 18.7038 19.1413 18.4721 19.1413 18.2306V17.6108C19.1413 14.5961 18.0535 11.6795 16.0723 9.38189Z" fill="#FF7070"/>
     <path d="M14.6148 14.3889C14.5433 14.3888 14.4743 14.3626 14.4213 14.3154C14.3683 14.2681 14.335 14.2032 14.3278 14.1331L14.0307 11.2552C14.0229 11.1801 14.0457 11.1051 14.0942 11.0466C14.1426 10.9881 14.2126 10.9509 14.2888 10.9433C14.365 10.9357 14.4412 10.9582 14.5006 11.0059C14.5599 11.0536 14.5976 11.1225 14.6054 11.1976L14.9025 14.0755C14.9066 14.1151 14.9021 14.1552 14.8895 14.193C14.8769 14.2308 14.8564 14.2656 14.8293 14.2952C14.8022 14.3247 14.7691 14.3483 14.7321 14.3644C14.6952 14.3806 14.6552 14.3889 14.6148 14.3889Z" fill="#FF6666"/>
@@ -21,7 +20,7 @@ const Cards=({name,room,alert,hr,rr,bp})=>{
     <path d="M8.5885 1.81305H10.5527V2.38216H8.5885V1.81305ZM8.5885 2.95128H10.5527V3.5204H8.5885V2.95128ZM8.5885 4.08951H10.5527V4.65863H8.5885V4.08951ZM8.5885 5.22774H10.5527V5.79686H8.5885V5.22774ZM8.5885 6.36597H10.5527V6.93509H8.5885V6.36597Z" fill="#FF4E4E"/>
     </svg>
     `;
-    const BP=`<svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  const BP = `<svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <rect width="20" height="18" fill="url(#pattern0)"/>
     <defs>
     <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -31,7 +30,7 @@ const Cards=({name,room,alert,hr,rr,bp})=>{
     </defs>
     </svg>
     `;
-    const HR=`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const HR = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4867 0C12.025 0 10.6216 0.729977 9.57148 1.74011C8.52045 0.729977 7.11792 0 5.65622 0C4.15682 0.00161214 2.71929 0.597961 1.65905 1.6582C0.598816 2.71844 0.00246663 4.15597 0.000854492 5.65537C0.000854492 7.03006 0.520278 8.34558 1.41035 9.38182C3.48282 11.7936 9.57148 19.1412 9.57148 19.1412C9.57148 19.1412 15.6584 11.8006 17.7274 9.38791C18.6262 8.34036 19.1421 7.02745 19.1421 5.65537C19.1421 2.53708 16.605 0 13.4867 0Z" fill="#E83829"/>
     <path opacity="0.1" d="M17.7273 9.17038C15.6583 11.5831 9.57139 18.9237 9.57139 18.9237C9.57139 18.9237 3.48274 11.5761 1.41026 9.16429C0.642875 8.27162 0.152163 7.27975 0.0303553 6.13998C0.0130607 5.97898 0.00318956 5.81726 0.000773384 5.65536C-0.000966729 5.70234 0.000773384 5.6075 0.000773384 5.65536C0.000773384 5.82763 0.00860385 5.99816 0.0242649 6.16782C0.142339 7.35665 0.626288 8.47958 1.40939 9.38181C3.48274 11.7936 9.57139 19.1412 9.57139 19.1412C9.57139 19.1412 15.6583 11.8006 17.7273 9.3879C18.3416 8.67795 18.7764 7.83082 18.995 6.91781C19.0922 6.50403 19.1412 6.0804 19.1411 5.65536C19.1367 6.06135 19.0836 6.46534 18.9828 6.85864C18.7653 7.7026 18.3337 8.4639 17.7273 9.17038Z" fill="#010101"/>
     <path opacity="0.2" d="M5.65622 0.217514C7.11792 0.217514 8.52045 0.947492 9.57148 1.95763C10.6225 0.947492 12.025 0.217514 13.4867 0.217514C16.5572 0.217514 19.0586 2.67977 19.1343 5.73193C19.1343 5.70583 19.1412 5.68147 19.1412 5.65537C19.1398 4.15605 18.5437 2.71851 17.4836 1.65825C16.4235 0.59799 14.9861 0.00161253 13.4867 0C12.025 0 10.6234 0.729977 9.57148 1.74011C8.52132 0.729977 7.11966 0 5.65622 0C4.15682 0.00161214 2.71929 0.597961 1.65905 1.6582C0.598816 2.71844 0.00246663 4.15597 0.000854492 5.65537C0.000854492 5.68147 0.0078149 5.70583 0.00868495 5.73193C0.0843799 2.6789 2.58492 0.217514 5.65622 0.217514Z" fill="white"/>
@@ -51,31 +50,42 @@ const Cards=({name,room,alert,hr,rr,bp})=>{
     </svg>
     `;
 
-    const RRImage = () => <SvgXml xml={RR} width="50%" />;
-    const BPImage = () => <SvgXml xml={BP} width="50%" />;
-    const HRImage = () => <SvgXml xml={HR} width="50%" />;
-    return(
-            
-            <TouchableOpacity className="rounded-2xl container mx-auto mb-7 border-gray-300 shadow-md w-[300px] h-[120px] " style={{backgroundColor:themeColors.semiblack}}
-            onPress={() => navigation.navigate("Chart")}
-            >
-                
-                <Text className="relative m-5 text-white font-md text-[18px] mb-6">{name}</Text>
-                <Text className="absolute right-5 mt-5" style={{color:themeColors.lightBlue}}>#{room}</Text>
-                <View className="flex flex-row w-[260px] justify-evenly ml-5 ">
-                  <HRImage />
-                  <RRImage />
-                  <BPImage />
-                </View>
-                <View className="z-1 absolute bottom-8 flex flex-row w-[280px] justify-around ml-8 ">
-                <Text className="text-white">{hr}</Text>
-                <Text className="text-white">{rr}</Text>
-                <Text className="text-white">{bp}</Text>
-
-                </View>
-                
-            </TouchableOpacity>
-    )
+  const RRImage = () => <SvgXml xml={RR} width="50%" />;
+  const BPImage = () => <SvgXml xml={BP} width="50%" />;
+  const HRImage = () => <SvgXml xml={HR} width="50%" />;
+  return (
+    <TouchableOpacity
+      className="rounded-2xl container mx-auto mb-7 border-gray-300 shadow-md w-[300px] h-[120px] "
+      style={{ backgroundColor: themeColors.semiblack }}
+      onPress={() => navigation.navigate("Chart")}
+    >
+      <Text className="relative m-5 text-white font-md text-[18px] mb-6">
+        {name}
+      </Text>
+      <Text
+        className="absolute right-5 mt-5"
+        style={
+          alert === "Warning"
+            ? { color: themeColors.alerts.warning }
+            : alert === "Danger"
+            ? { color: themeColors.alerts.danger }
+            : { color: themeColors.alerts.safe }
+        }
+      >
+        #{room}
+      </Text>
+      <View className="flex flex-row w-[260px] justify-evenly ml-5 ">
+        <HRImage />
+        <RRImage />
+        <BPImage />
+      </View>
+      <View className="z-1 absolute bottom-8 flex flex-row w-[280px] justify-around ml-8 ">
+        <Text className="text-white">{hr}</Text>
+        <Text className="text-white">{rr}</Text>
+        <Text className="text-white">{bp}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 export default Cards;

@@ -49,10 +49,10 @@ export const Scan = () => {
 
   return (
     <TouchableOpacity
-      className="w-16 h-16 rounded-full bg-blue-500 absolute bottom-5 right-5 fixed"
+      className="w-16 h-16 rounded-full bg-blue-500 absolute bottom-10 right-5"
       onPress={() => navigation.navigate("ImageClicker")}
     >
-      <View className="ml-0.5 my-5 mr-0.5">
+      <View className="mx-0.5 my-5 ">
         <ScanImage />
       </View>
     </TouchableOpacity>
