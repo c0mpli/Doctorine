@@ -4,19 +4,18 @@ import Programs from "../Programs/Programs";
 import "./MainDash.css";
 import Card from "../Card/Card";
 
-const MainDash = ({ doctorData, setModal, name }) => {
+const MainDash = ({ data, setModal, name ,location}) => {
   return (
     <>
       <div className="MainDash">
-        {/* <h2>Total {name}</h2>
-        <Card /> */}
+        
         <div className="maindash-heading-wrapper">
           <h2>Your {name}</h2>
           <button className="standard-button" onClick={() => setModal(true)}>
             Add {name}
           </button>
         </div>
-        <Programs data={doctorData} />
+        <Programs data={data} location={location} />
       </div>
     </>
   );

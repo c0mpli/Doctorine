@@ -6,17 +6,20 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
+import {useLocation } from 'react-router-dom';
+
+
 
 function Doctors() {
   const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-  const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const [doctorData, setDoctorData] = React.useState();
+  const location = useLocation();
 
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
-    if (!addName || !address) {
+    if (!addName ) {
       alert("Please fill all the fields");
       return;
     }
@@ -25,8 +28,7 @@ function Doctors() {
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addDoctor`,
         {
           address: {
-            name: addName,
-            address: address,
+            name: addName
           },
           user: user?.id,
         },
@@ -37,11 +39,9 @@ function Doctors() {
         alert("Added Successfully");
         window.location.reload();
       });
-    console.log(addName, address);
     console.log(addName);
     setModal(false);
     setAddName("");
-    setAddress("");
   };
 
   function getDoctors() {
@@ -85,18 +85,13 @@ function Doctors() {
               <h1>Add Doctor</h1>
               <input
                 placeholder="Name"
+                type="text"
                 value={addName}
                 onChange={(e) => {
                   setAddName(e.target.value);
                 }}
               />
-              {/* <input
-                placeholder="Address"
-                value={address}
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              /> */}
+
             </div>
             <div className="footer">
               <button
@@ -119,6 +114,7 @@ function Doctors() {
               name="Doctors"
               setModal={setModal}
               doctorData={doctorData}
+              location={location.pathname}
             />
           </div>
         </div>

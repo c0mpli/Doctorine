@@ -28,8 +28,8 @@
 }
 
 .logo > img {
-  width: 6rem;
-  height: 6rem;
+  width: 400px;
+  height: 400px;
   cursor: pointer;
 }
 
@@ -98,7 +98,8 @@
     display: none;
   }
   .logo {
-    display: none;
+    display: flexbox;
+    width:110px ;
   }
 }
 

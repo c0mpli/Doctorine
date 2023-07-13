@@ -8,7 +8,10 @@ import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Loader from "../../Loader";
 import usefetchAddressDetails from "../../../hooks/useFetchAddressDetails";
-function Programs({ data }) {
+
+
+function Programs({ data , location}) {
+  
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [programs, setPrograms] = useState();
@@ -17,7 +20,7 @@ function Programs({ data }) {
   function handleDelete(index) {
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/delete-address`,
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/delete${location}`,
         {
           index: index,
           user: user?.id,
@@ -27,7 +30,6 @@ function Programs({ data }) {
       .then((response) => {
         fetchAddressDetails(user?.id, user?.token);
         alert("Delted Successfully");
-        //getAddresses();
       });
   }
 
@@ -39,17 +41,17 @@ function Programs({ data }) {
           return (
             <div className="card" key={key}>
               <div className="card-top">
-                <h1>{item}</h1>
+                <h1>{item.id}</h1>
               </div>
               <div className="card-bottom">
-                <p>{item.description}</p>
+                {/* <p>{item.description}</p>
                 <button
                   onClick={() =>
                     navigate("/addressdetails", { state: { address: key } })
                   }
                 >
                   View Details
-                </button>
+                </button> */}
                 <button
                   className="deleteButton"
                   onClick={(e) => handleDelete(key)}

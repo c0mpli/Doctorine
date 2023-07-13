@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect }  from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
 import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
@@ -10,9 +10,10 @@ import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 function Nurses(){
     const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-
 //   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
+  const [nurseData, setNurseData] = React.useState();
+
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     // if (!addName || !address) {
@@ -22,7 +23,7 @@ function Nurses(){
     }
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/add-address`,
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/addNurse`,
         {
           address: {
             name: addName,
@@ -43,6 +44,29 @@ function Nurses(){
     setAddName("");
     // setAddress("");
   };
+
+  function getNurses() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+        {
+          params: {
+            id: user?.userData.hospitalId[0],
+          },
+        },
+        { headers: { token: user?.token } }
+      )
+      .then((response) => {
+        setNurseData(response.data);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+  useEffect(() => {
+    getNurses();
+  }, []);
 
   return(
     <>
@@ -93,7 +117,10 @@ function Nurses(){
         <div className="ContentWrapper">
           <ProfileHeader title={"Manage Nurses"} />
           <div className="AppGlass3">
-            <MainDash name="Nurses"  setModal={setModal} />
+            <MainDash 
+              name="Nurses"  
+              setModal={setModal} 
+              nurseData={nurseData}/>
           </div>
         </div>
       </div>
