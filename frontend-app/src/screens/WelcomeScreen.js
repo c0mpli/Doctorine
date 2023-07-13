@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import { SvgXml } from "react-native-svg";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
@@ -89,6 +90,8 @@ export default function WelcomeScreen() {
   </svg>
   `;
 
+  const { user } = useAuthContext();
+
   const SvgImage = () => <SvgXml xml={svgMarkup} width="100%" />;
   return (
     <SafeAreaView
@@ -96,23 +99,24 @@ export default function WelcomeScreen() {
       style={{ backgroundColor: themeColors.bg }}
     >
       <View className="flex-row justify-center">
-          <SvgImage />
-        </View>
+        <SvgImage />
+      </View>
       <View className="flex-1 flex justify-around my-3">
         <Text className="text-white font-bold text-2xl text-center">
           WELCOME TO DOCTORINE
         </Text>
-        
+
         <View className="space-y-10 py-7">
           <TouchableOpacity
-            onPress={() => navigation.navigate("Login")}
+            onPress={() =>
+              user ? navigation.navigate("Home") : navigation.navigate("Login")
+            }
             className="py-4 bg-black mx-auto rounded-3xl w-48 "
           >
             <Text className="text-xl font-bold text-center text-white">
               Get Started
             </Text>
           </TouchableOpacity>
-          
         </View>
       </View>
     </SafeAreaView>

@@ -23,10 +23,20 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: [],
   },
+  patientId: {
+    type: Array,
+    required: false,
+    default: [],
+  },
   bedId: {
     type: Array,
     required: false,
     default: [],
+  },
+  data: {
+    type: Array,
+    required: false,
+    default: {},
   },
 });
 

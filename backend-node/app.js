@@ -2,10 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const env = require("./env");
-
+var bodyParser = require("body-parser");
+require("dotenv").config();
 const app = express();
 app.use(express.json());
 app.use(cors({ exposedHeaders: "token" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(require("./middlewares/auth"));
 mongoose
@@ -16,7 +19,7 @@ mongoose
 app.use("/user", require("./routes/user"));
 app.use("/hospital", require("./routes/hospital"));
 
-let port = env.PORT || 5000;
+let port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log("Server started");
