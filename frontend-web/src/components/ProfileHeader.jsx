@@ -30,9 +30,15 @@ function ProfileHeader(props) {
           marginTop: "2rem",
         }}
       >
-        <img src={ProfileImage} style={{ height: "2rem", width: "2rem" }} />
+        <img
+          src={ProfileImage}
+          style={{ height: "3.4rem", width: "3.4rem", marginTop: "5px" }}
+        />
         <div className="profile-info">
-          <h2>{user?.name}</h2>
+          <h2>{user?.userData?.name}</h2>
+          <p style={{ marginTop: "-1rem", marginLeft: "0.3rem" }}>
+            {user?.userData?.email}
+          </p>
         </div>
       </div>
     </div>
