@@ -6,11 +6,12 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
+import { useLocation } from "react-router-dom";
 
 function Nurses() {
   const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-  //   const [address, setAddress] = React.useState("");
+  const location = useLocation();
   const { user } = useAuthContext();
   const [nurseData, setNurseData] = React.useState();
   const { fetchAddressDetails } = usefetchAddressDetails();
@@ -86,19 +87,12 @@ function Nurses() {
             <div className="title">
               <h1>Add Nurse</h1>
               <input
-                placeholder="Name"
+                placeholder="Email"
                 value={addName}
                 onChange={(e) => {
                   setAddName(e.target.value);
                 }}
               />
-              {/* <input
-                placeholder="Address"
-                value={address}
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              /> */}
             </div>
             <div className="footer">
               <button
@@ -115,7 +109,12 @@ function Nurses() {
       <div className="ContentWrapper">
         <ProfileHeader title={"Manage Nurses"} />
         <div className="AppGlass3">
-          <MainDash name="Nurses" setModal={setModal} data={nurseData} />
+          <MainDash 
+            name="Nurses" 
+            setModal={setModal} 
+            data={nurseData}
+            location={location.pathname}
+            />
         </div>
       </div>
     </>

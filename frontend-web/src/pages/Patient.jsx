@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
 import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
@@ -6,29 +6,28 @@ import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
+import { useLocation } from "react-router-dom";
 
 function Patients() {
   const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
-
-  //   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const { fetchAddressDetails } = usefetchAddressDetails();
+  const [patientData, setPatientData] = React.useState();
+  const location = useLocation();
+
   const handleSubmit = () => {
-    // if (!addName || !address) {
     if (!addName) {
       alert("Please fill all the fields");
       return;
     }
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/user/add-address`,
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/addPatient`,
         {
-          address: {
-            name: addName,
-            // address: address,
-          },
-          user: user?.id,
+    
+            email: addName,
+            user: user?.id,
         },
         { headers: { token: user?.token } }
       )
@@ -41,8 +40,31 @@ function Patients() {
     console.log(addName);
     setModal(false);
     setAddName("");
-    // setAddress("");
   };
+
+  function getPatients() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+        {
+          params: {
+            id: user?.userData.hospitalId[0],
+          },
+        },
+        { headers: { token: user?.token } }
+      )
+      .then((response) => {
+        setPatientData(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
+  useEffect(() => {
+    getPatients();
+  }, []);
 
   return (
     <>
@@ -61,19 +83,13 @@ function Patients() {
             <div className="title">
               <h1>Add Patient</h1>
               <input
-                placeholder="Name"
+                placeholder="Email"
                 value={addName}
                 onChange={(e) => {
                   setAddName(e.target.value);
                 }}
               />
-              {/* <input
-                placeholder="Address"
-                value={address}
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              /> */}
+              
             </div>
             <div className="footer">
               <button

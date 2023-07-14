@@ -26,7 +26,7 @@ function ProfileHeader(props) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "1rem",
+          gap: "2rem",
           marginTop: "2rem",
         }}
       >
