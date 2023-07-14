@@ -3,20 +3,20 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import deleteIcon from "../../../imgs/delete.png";
 import "./Programs.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Loader from "../../Loader";
 import usefetchAddressDetails from "../../../hooks/useFetchAddressDetails";
-import { UilBed } from '@iconscout/react-unicons';
+import { UilBed } from "@iconscout/react-unicons";
 
-
-function Programs({ data , location}) {
-  
+function Programs({ data }) {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [programs, setPrograms] = useState();
   const { fetchAddressDetails } = usefetchAddressDetails();
+  const [mapData, setMapData] = useState();
+  const location = useLocation();
 
   function handleDelete(index) {
     axios
@@ -34,24 +34,30 @@ function Programs({ data , location}) {
       });
   }
 
+  useEffect(() => {
+    if (location.pathname === "/doctor") {
+      setMapData(data?.doctors);
+    }
+    if (location.pathname === "/nurse") {
+      setMapData(data?.nurses);
+    }
+  }, [data]);
+
   return (
     <div className="Programs">
       <div>
         {!data && <Loader />}
-        {data?.doctors?.map((item, key) => {
+        {mapData?.map((item, key) => {
           return (
             <div className="card" key={key}>
               <div className="card-top">
                 <h1>{item.name}</h1>
                 <p>{item.email}</p>
-                
-                
               </div>
               <div className="card-bottom">
-              <div className="bed">
-                <UilBed/>
-                <p style={{marginBottom:"0.3rem"}}> 5</p>
-                
+                <div className="bed">
+                  <UilBed />
+                  <p style={{ marginBottom: "0.3rem" }}> {item.bedId.length}</p>
                 </div>
                 <button
                   className="deleteButton"
@@ -81,4 +87,3 @@ function Programs({ data , location}) {
 }
 
 export default Programs;
-

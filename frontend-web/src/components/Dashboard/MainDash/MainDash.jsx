@@ -14,7 +14,7 @@ const MainDash = ({ data, setModal, name, location }) => {
             Add {name}
           </button>
         </div>
-        <Programs data={data} location={location} />
+        <Programs data={data} location={location} name={name} />
       </div>
     </>
   );

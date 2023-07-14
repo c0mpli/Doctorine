@@ -13,7 +13,6 @@ function Nurses() {
   //   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const [nurseData, setNurseData] = React.useState();
-
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     // if (!addName || !address) {
