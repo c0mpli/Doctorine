@@ -12,19 +12,13 @@ function Dashboard() {
   const [addName, setAddName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
-  
+
   return (
     <>
-      
-         
-
-      <div className="AppGlass2">
-        <Sidebar />
-        <div className="ContentWrapper">
-          <ProfileHeader title={"Dashboard"} />
-          <div className="AppGlass3">
-            <Card/>
-          </div>
+      <div className="ContentWrapper">
+        <ProfileHeader title={"Dashboard"} />
+        <div className="AppGlass3">
+          <Card />
         </div>
       </div>
     </>

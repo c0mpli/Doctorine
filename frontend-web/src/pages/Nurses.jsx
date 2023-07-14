@@ -112,13 +112,10 @@ function Nurses() {
           </div>
         </div>
       )}
-      <div className="AppGlass2">
-        <Sidebar />
-        <div className="ContentWrapper">
-          <ProfileHeader title={"Manage Nurses"} />
-          <div className="AppGlass3">
-            <MainDash name="Nurses" setModal={setModal} data={nurseData} />
-          </div>
+      <div className="ContentWrapper">
+        <ProfileHeader title={"Manage Nurses"} />
+        <div className="AppGlass3">
+          <MainDash name="Nurses" setModal={setModal} data={nurseData} />
         </div>
       </div>
     </>

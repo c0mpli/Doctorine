@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import Doctors from "./pages/Doctors";
 import Nurses from "./pages/Nurses";
 import Patients from "./pages/Patient";
+import DashboardNavigator from "./pages/DashboardNavigator";
 
 function App() {
   const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("theme")));
@@ -29,27 +30,36 @@ function App() {
             <Route path="/" element={user ? <Dashboard /> : <Login />} />
             <Route
               path="/addressdetails"
-              element={user ? <Addresses /> : <Login />}
+              element={user ? <DashboardNavigator /> : <Login />}
             />
-            <Route path="/settings" element={user ? <Settings /> : <Login />} />
+            <Route
+              path="/settings"
+              element={user ? <DashboardNavigator /> : <Login />}
+            />
             <Route
               path="/dashboard"
-              element={user ? <Dashboard /> : <Login />}
+              element={user ? <DashboardNavigator /> : <Login />}
             />
             <Route
               path="/doctor"
-              element={user ? <Doctors /> : <Login />}
+              element={user ? <DashboardNavigator /> : <Login />}
             />
             <Route
               path="/nurse"
-              element={user ? <Nurses /> : <Login />}
+              element={user ? <DashboardNavigator /> : <Login />}
             />
             <Route
               path="/patient"
-              element={user ? <Patients /> : <Login />}
+              element={user ? <DashboardNavigator /> : <Login />}
             />
-            <Route path="/signup" element={user ? <Dashboard /> : <Signup />} />
-            <Route path="/login" element={user ? <Dashboard /> : <Login />} />
+            <Route
+              path="/signup"
+              element={user ? <DashboardNavigator /> : <Signup />}
+            />
+            <Route
+              path="/login"
+              element={user ? <DashboardNavigator /> : <Login />}
+            />
           </Routes>
         </BrowserRouter>
       </div>

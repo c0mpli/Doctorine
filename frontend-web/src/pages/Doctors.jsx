@@ -102,18 +102,15 @@ function Doctors() {
           </div>
         </div>
       )}
-      <div className="AppGlass2">
-        <Sidebar />
-        <div className="ContentWrapper">
-          <ProfileHeader title={"Manage Doctors"} />
-          <div className="AppGlass3">
-            <MainDash
-              name="Doctors"
-              setModal={setModal}
-              data={doctorData}
-              location={location.pathname}
-            />
-          </div>
+      <div className="ContentWrapper">
+        <ProfileHeader title={"Manage Doctors"} />
+        <div className="AppGlass3">
+          <MainDash
+            name="Doctors"
+            setModal={setModal}
+            data={doctorData}
+            location={location.pathname}
+          />
         </div>
       </div>
     </>

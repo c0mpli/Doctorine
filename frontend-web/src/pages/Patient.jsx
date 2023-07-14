@@ -7,16 +7,16 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 
-function Patients(){
-    const [modal, setModal] = React.useState(false);
+function Patients() {
+  const [modal, setModal] = React.useState(false);
   const [addName, setAddName] = React.useState("");
 
-//   const [address, setAddress] = React.useState("");
+  //   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
   const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     // if (!addName || !address) {
-        if (!addName) {
+    if (!addName) {
       alert("Please fill all the fields");
       return;
     }
@@ -44,7 +44,7 @@ function Patients(){
     // setAddress("");
   };
 
-  return(
+  return (
     <>
       {modal && (
         <div className="modalBackground">
@@ -87,17 +87,14 @@ function Patients(){
           </div>
         </div>
       )}
-      <div className="AppGlass2">
-        <Sidebar />
-        <div className="ContentWrapper">
-          <ProfileHeader title={"Manage Patients"} />
-          <div className="AppGlass3">
-            <MainDash name="Patients" setModal={setModal} />
-          </div>
+      <div className="ContentWrapper">
+        <ProfileHeader title={"Manage Patients"} />
+        <div className="AppGlass3">
+          <MainDash name="Patients" setModal={setModal} />
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default Patients;
