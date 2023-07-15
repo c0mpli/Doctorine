@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  DatePickerIOSBase,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Cards from "../components/Cards";
@@ -7,11 +14,12 @@ import TopBar from "../components/TopBar";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
+import { useRoute } from "@react-navigation/native";
 export default function HomeScreen() {
   const { user } = useAuthContext();
   const [data, setData] = useState([]);
+  const route = useRoute();
   function getData() {
-    console.log(user?.userData.patientId);
     const patientId = user?.userData.patientId;
     for (let i = 0; i < patientId.length; i++) {
       axios
@@ -21,7 +29,6 @@ export default function HomeScreen() {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setData((prev) => [...prev, res.data]);
         })
         .catch((err) => {
@@ -32,7 +39,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [route]);
   return (
     <>
       <SafeAreaView className="relative h-full">
@@ -45,15 +52,16 @@ export default function HomeScreen() {
 
         <ScrollView>
           {data?.map((item, i) => {
+            //console.log(item.data);
             return (
               <Cards
                 key={i}
                 name={item.name}
                 room={item.bedId[0]}
-                rr={item.data[data.length - 1]?.RR || null}
-                hr={item.data[data.length - 1]?.HR || null}
-                bp={item.data[data.length - 1]?.SBP}
-                alert={item.data[data.length - 1]?.alert}
+                rr={item.data[item.data.length - 1]?.RR || null}
+                hr={item.data[item.data.length - 1]?.HR || null}
+                bp={item.data[item.data.length - 1]?.SBP}
+                alert={item.data[item.data.length - 1]?.alert}
               />
             );
           })}

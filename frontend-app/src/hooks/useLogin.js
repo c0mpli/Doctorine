@@ -28,7 +28,6 @@ function useLogin() {
       setIsLoading(false);
       navigator.navigate("Home");
     } catch (error) {
-      console.log(error);
       setError(error.message);
       setIsLoading(false);
     }
