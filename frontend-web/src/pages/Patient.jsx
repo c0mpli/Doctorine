@@ -106,7 +106,11 @@ function Patients() {
       <div className="ContentWrapper">
         <ProfileHeader title={"Manage Patients"} />
         <div className="AppGlass3">
-          <MainDash name="Patients" setModal={setModal} />
+          <MainDash name="Add Patients" 
+          setModal={setModal} 
+          data={patientData}
+          location={location.pathname}
+          />
         </div>
       </div>
     </>

@@ -110,7 +110,7 @@ function Nurses() {
         <ProfileHeader title={"Manage Nurses"} />
         <div className="AppGlass3">
           <MainDash 
-            name="Nurses" 
+            name="Add Nurses" 
             setModal={setModal} 
             data={nurseData}
             location={location.pathname}

@@ -107,7 +107,7 @@ function Doctors() {
         <ProfileHeader title={"Manage Doctors"} />
         <div className="AppGlass3">
           <MainDash
-            name="Doctors"
+            name="Add Doctors"
             setModal={setModal}
             data={doctorData}
             location={location.pathname}
