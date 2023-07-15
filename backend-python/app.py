@@ -30,11 +30,12 @@ def allowed_file(filename):
 	
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-cors = CORS(app)
+cors = CORS(app, origins=['https://doctorine-node.onrender.com'])
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/predict', methods = ['POST'])
+@cross_origin()
 def upload_image():
     if len(request.files) ==0:
         return "File empty", 400
