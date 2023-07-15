@@ -4,53 +4,50 @@ import ProfileHeader from "../components/ProfileHeader";
 import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
-import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
-import Card from "../components/Dashboard/Card/Card";
-import Cards from "../components/Dashboard/Cards/Cards";
-<<<<<<< HEAD
-import DashboardNavigator from './DashboardNavigator'
-import { useLocation } from "react-router-dom";
 
 function Dashboard() {
   const [modal, setModal] = React.useState(false);
   const [doctorEmail, setDoctorEmail] = React.useState("");
   const [nurseEmail, setNurseEmail] = React.useState("");
   const [patientEmail, setPatientEmail] = React.useState("");
+  const [bedNo, setBedNo] = React.useState("");
   const { user } = useAuthContext();
   const [hospitalData, setHospitalData] = React.useState([]);
-  const location = useLocation();
 
-  const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
-    if (!doctorEmail || !nurseEmail) {
+    if (!doctorEmail || !nurseEmail || !patientEmail || !bedNo) {
       alert("Please fill all the fields");
       return;
     }
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_BACKEND_URL}/hospital/addDoctor`,
-  //       {
-  //         email: doctorEmail,
-
-  //         user: user?.id,
-  //       },
-  //       { headers: { token: user?.token } }
-  //     )
-  //     .then((response) => {
-  //       fetchAddressDetails(user?.id, user?.token);
-  //       alert("Added Successfully");
-  //       window.location.reload();
-  //     });
-  //   setModal(false);
-  //   setDoctorEmail("");
-  //   // setNurseEmail("");
-  //   // setPatientEmail("");
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/assignBed`,
+        {
+          hospitalId: user?.userData.hospitalId[0],
+          doctorEmail: doctorEmail,
+          nurseEmail: nurseEmail,
+          patientEmail: patientEmail,
+          bedNo: bedNo,
+        },
+        { headers: { token: user?.token } }
+      )
+      .then((response) => {
+        alert("Added Successfully");
+        window.location.reload();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+    setModal(false);
+    setDoctorEmail("");
+    setNurseEmail("");
+    setPatientEmail("");
   };
 
-  function getDoctors() {
+  function getBeds() {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+        `${process.env.REACT_APP_BACKEND_URL}/hospital/getBeds`,
         {
           params: {
             id: user?.userData.hospitalId[0],
@@ -59,51 +56,26 @@ function Dashboard() {
         { headers: { token: user?.token } }
       )
       .then((response) => {
-        setHospitalData(response.data);
         console.log(response.data);
+        setHospitalData(response.data);
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
       });
   }
 
   useEffect(() => {
-    getDoctors();
+    const abortController = new AbortController();
+
+    getBeds();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
-const noOfDoc=hospitalData?.doctors?.length;
-const noOfNurse=hospitalData?.nurses?.length;
- 
-=======
-import DashboardNavigator from "./DashboardNavigator";
-
-function Dashboard() {
-  const [modal, setModal] = React.useState(false);
-  const [addName, setAddName] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const { user } = useAuthContext();
-
->>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
   return (
     <>
-      <div className="ContentWrapper">
-        <ProfileHeader title={`${user?.userData?.password}'s Dashboard`} />
-
-        <div className="AppGlass3">
-<<<<<<< HEAD
-          <Card value= {noOfDoc} 
-          title="Total Doctors"
-          />
-        </div>
-        <div className="AppGlass3">
-          <Card value= {noOfNurse} 
-          title="Total Nurses"
-          />
-        </div>
-        
-        <DashboardNavigator/>
-        
-      </div>
       {modal && (
         <div className="modalBackground">
           <div className="modalContainer">
@@ -117,32 +89,35 @@ function Dashboard() {
               </button>
             </div>
             <div className="title">
-              <h1>Add Details</h1>
+              <h1>Assgin Bed</h1>
               <input
-                placeholder="Doctor's Email"
-                type="text"
+                placeholder="Doctor Email"
                 value={doctorEmail}
                 onChange={(e) => {
                   setDoctorEmail(e.target.value);
                 }}
               />
               <input
-                placeholder="Nurse's Email"
-                type="text"
+                placeholder="Nurse Email"
                 value={nurseEmail}
                 onChange={(e) => {
-                  setDoctorEmail(e.target.value);
+                  setNurseEmail(e.target.value);
                 }}
               />
               <input
-                placeholder="Patient's Email"
-                type="text"
+                placeholder="Patient Email"
                 value={patientEmail}
                 onChange={(e) => {
-                  setDoctorEmail(e.target.value);
+                  setPatientEmail(e.target.value);
                 }}
               />
-
+              <input
+                placeholder="Bed Number"
+                value={bedNo}
+                onChange={(e) => {
+                  setBedNo(e.target.value);
+                }}
+              />
             </div>
             <div className="footer">
               <button
@@ -150,29 +125,23 @@ function Dashboard() {
                   handleSubmit();
                 }}
               >
-                Assign Beds
+                Assign
               </button>
             </div>
           </div>
         </div>
       )}
-      <div className>
-        {/* <ProfileHeader title={"Manage Doctors"} /> */}
+      <div className="ContentWrapper">
+        <ProfileHeader title={"Dashboard"} />
         <div className="AppGlass3">
           <MainDash
-            name="Manage Beds"
             setModal={setModal}
+            dashboard={true}
+            name="Assign Beds"
             data={hospitalData}
-            location={location.pathname}
           />
-          
         </div>
       </div>
-=======
-          <Cards />
-        </div>
-      </div>
->>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
     </>
   );
 }

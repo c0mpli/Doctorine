@@ -70,6 +70,33 @@ router.get("/getHospital", async (req, res) => {
   return res.json(hospital);
 });
 
+router.get("/getBeds", async (req, res) => {
+  const hospitalId = req.query.id;
+  const hospital = await Hospital.findById(hospitalId);
+  if (!hospital) return res.status(400).send("Hospital does not exist");
+
+  const beds = await Bed.find({ hospitalId: hospitalId });
+  const bedsData = [];
+  for (let i = 0; i < beds.length; i++) {
+    const bed = beds[i];
+    //get patient
+    const patient = await User.findById(bed.patientId);
+    //get doctor
+    const doctor = await User.findById(bed.doctorId);
+    //get nurse
+    const nurse = await User.findById(bed.nurseId);
+
+    const t = {
+      patientData: [patient.name, patient.email],
+      doctorData: [doctor.name, doctor.email],
+      nurseData: [nurse.name, nurse.email],
+      bedData: [bed.bedNumber],
+    };
+    bedsData.push(t);
+  }
+  return res.json(bedsData);
+});
+
 router.post("/addAdmin", async (req, res) => {
   const { email, hospitalId } = req.body;
 
@@ -241,40 +268,49 @@ router.post("/deletePatient", async (req, res) => {
 });
 
 router.post("/assignBed", async (req, res) => {
-  const { hospitalId, patientId, nurseId, doctorId, bedNo } = req.body;
+  const { hospitalId, patientEmail, nurseEmail, doctorEmail, bedNo } = req.body;
+
+  const patient = await User.findOne({ email: patientEmail });
+  if (!patient) return res.status(400).send("Patient does not exist");
+
+  const doctor = await User.findOne({ email: doctorEmail });
+  if (!doctor) return res.status(400).send("Doctor does not exist");
+
+  const nurse = await User.findOne({ email: nurseEmail });
+  if (!nurse) return res.status(400).send("Nurse does not exist");
 
   const hospital = await Hospital.findOne({ _id: hospitalId });
   if (!hospital) return res.status(400).send("Hospital does not exist");
 
   const bed = await Bed.create({
-    hospitalId: hospitalId,
-    patientId: patientId,
-    nurseId: nurseId,
-    doctorId: doctorId,
+    hospitalId: hospital._id,
+    patientId: patient._id,
+    nurseId: nurse._id,
+    doctorId: doctor._id,
     bedNumber: bedNo,
   });
 
   const beds = hospital.beds;
+  const t = hospital.patients;
   beds.push(bed._id);
+  t.push(patient._id);
   hospital.beds = beds;
+  hospital.patients = t;
   await hospital.save();
 
-  const nurse = await User.findOne({ _id: nurseId });
-  const nurses = nurse.beds || [];
+  const nurses = nurse.beds;
   nurses.push(bed._id);
-  nurse.beds = nurses;
+  nurse.bedId = nurses;
   await nurse.save();
 
-  const doctor = await User.findOne({ _id: doctorId });
-  const doctors = doctor.beds || [];
+  const doctors = doctor.beds;
   doctors.push(bed._id);
-  doctor.beds = doctors;
+  doctor.bedId = doctors;
   await doctor.save();
 
-  const patient = await User.findOne({ _id: patientId });
-  const patients = patient.beds || [];
+  const patients = patient.beds;
   patients.push(bed._id);
-  patient.beds = patients;
+  patient.bedId = patients;
   await patient.save();
 
   return res.json({ bed, doctor, nurse, patient });

@@ -25,9 +25,8 @@ function Patients() {
       .post(
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addPatient`,
         {
-    
-            email: addName,
-            user: user?.id,
+          email: addName,
+          user: user?.id,
         },
         { headers: { token: user?.token } }
       )
@@ -63,7 +62,13 @@ function Patients() {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     getPatients();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -89,7 +94,6 @@ function Patients() {
                   setAddName(e.target.value);
                 }}
               />
-              
             </div>
             <div className="footer">
               <button
@@ -106,10 +110,11 @@ function Patients() {
       <div className="ContentWrapper">
         <ProfileHeader title={"Manage Patients"} />
         <div className="AppGlass3">
-          <MainDash name="Add Patients" 
-          setModal={setModal} 
-          data={patientData}
-          location={location.pathname}
+          <MainDash
+            name="Add Patients"
+            setModal={setModal}
+            data={patientData}
+            location={location.pathname}
           />
         </div>
       </div>

@@ -14,7 +14,6 @@ function Nurses() {
   const location = useLocation();
   const { user } = useAuthContext();
   const [nurseData, setNurseData] = React.useState();
-  const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     // if (!addName || !address) {
     if (!addName) {
@@ -26,21 +25,18 @@ function Nurses() {
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addNurse`,
         {
           email: addName,
-          // address: address,
-          user: user?.id,
+          hospitalId: user?.userData.hospitalId[0],
         },
 
         { headers: { token: user?.token } }
       )
       .then((response) => {
-        fetchAddressDetails(user?.id, user?.token);
         alert("Added Successfully");
         window.location.reload();
       })
       .catch((err) => {
         alert(err);
       });
-    // console.log(addName, address);
     console.log(addName);
     setModal(false);
     setAddName("");
@@ -67,7 +63,13 @@ function Nurses() {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     getNurses();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -109,12 +111,12 @@ function Nurses() {
       <div className="ContentWrapper">
         <ProfileHeader title={"Manage Nurses"} />
         <div className="AppGlass3">
-          <MainDash 
-            name="Add Nurses" 
-            setModal={setModal} 
+          <MainDash
+            name="Add Nurses"
+            setModal={setModal}
             data={nurseData}
             location={location.pathname}
-            />
+          />
         </div>
       </div>
     </>
