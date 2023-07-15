@@ -11,7 +11,7 @@ app.use(
     origin: [
       "https://doctorine-node.onrender.com",
       "http://localhost:3000",
-      "https://doctorine-alpha.vercel.app/",
+      "https://doctorine-alpha.vercel.app",
     ],
 
     exposedHeaders: "token",
