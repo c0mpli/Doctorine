@@ -21,6 +21,7 @@ function ImageClicker() {
     });
     data.append("bedNo", roomNumber);
     data.append("hospitalId", hospitalId);
+    console.log(data);
     axios
       .post("https://doctorine-node.onrender.com/hospital/addData", data)
       .then((res) => {

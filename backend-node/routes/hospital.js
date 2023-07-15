@@ -294,6 +294,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/addData", upload.single("image"), async (req, res) => {
+  console.log("hit");
   const { hospitalId, bedNo } = req.body;
 
   if (!hospitalId) return res.status(400).send("No hospitalId in request body");
