@@ -11,7 +11,7 @@ const MainDash = ({ data, setModal, name, location }) => {
         <div className="maindash-heading-wrapper">
           <h2>Your {name}</h2>
           <button className="standard-button" onClick={() => setModal(true)}>
-            Add {name}
+            {name}
           </button>
         </div>
         <Programs data={data} location={location} name={name} />
