@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
-import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
 import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -26,7 +25,7 @@ function Patients() {
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addPatient`,
         {
           email: addName,
-          user: user?.id,
+          hospitalId: user?.userData.hospitalId[0],
         },
         { headers: { token: user?.token } }
       )

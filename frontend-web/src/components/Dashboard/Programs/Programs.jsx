@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import deleteIcon from "../../../imgs/delete.png";
 import "./Programs.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Loader from "../../Loader";
@@ -46,6 +46,9 @@ function Programs({ data, dashboard }) {
     }
     if (location.pathname === "/nurse") {
       setMapData(data?.nurses);
+    }
+    if (location.pathname === "/patient") {
+      setMapData(data?.patients);
     }
   }, [data]);
 
