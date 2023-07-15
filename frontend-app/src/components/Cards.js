@@ -57,7 +57,19 @@ const Cards = ({ name, room, alert, hr, rr, bp }) => {
     <TouchableOpacity
       className="rounded-2xl container mx-auto mb-7 border-gray-300 shadow-md w-[300px] h-[120px] "
       style={{ backgroundColor: themeColors.semiblack }}
-      onPress={() => navigation.navigate("Chart")}
+      onPress={() =>
+        navigation.navigate(
+          "Chart",
+          (data = {
+            name: name,
+            room: room,
+            hr: hr,
+            rr: rr,
+            bp: bp,
+            alert: alert,
+          })
+        )
+      }
     >
       <Text className="relative m-5 text-white font-md text-[18px] mb-6">
         {name}

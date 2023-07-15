@@ -27,7 +27,10 @@ function App() {
       <div className="App" id={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={user ? <Dashboard /> : <Login />} />
+            <Route
+              path="/"
+              element={user ? <DashboardNavigator /> : <Login />}
+            />
             <Route
               path="/addressdetails"
               element={user ? <DashboardNavigator /> : <Login />}

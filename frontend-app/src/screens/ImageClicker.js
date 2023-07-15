@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
-import { Text, View, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
@@ -21,11 +28,14 @@ function ImageClicker() {
     });
     data.append("bedNo", roomNumber);
     data.append("hospitalId", hospitalId);
-    console.log(data);
     axios
-      .post("https://doctorine-node.onrender.com/hospital/addData", data)
+      .post("https://doctorine-node.onrender.com/hospital/addData", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
-        console.log(res);
+        Alert.alert("Image Saved");
         navigation.navigate("Home");
       })
       .catch((error) => {
@@ -92,9 +102,7 @@ function ImageClicker() {
             alignSelf: "center",
             color: "white",
           }}
-          onPress={() => {
-            handleSave();
-          }}
+          onPress={handleSave}
         >
           <Text style={{ color: "white" }}>Save</Text>
         </TouchableOpacity>

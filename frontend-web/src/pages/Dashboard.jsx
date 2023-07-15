@@ -7,6 +7,7 @@ import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 import Card from "../components/Dashboard/Card/Card";
 import Cards from "../components/Dashboard/Cards/Cards";
+<<<<<<< HEAD
 import DashboardNavigator from './DashboardNavigator'
 import { useLocation } from "react-router-dom";
 
@@ -73,15 +74,26 @@ function Dashboard() {
 const noOfDoc=hospitalData?.doctors?.length;
 const noOfNurse=hospitalData?.nurses?.length;
  
+=======
+import DashboardNavigator from "./DashboardNavigator";
+
+function Dashboard() {
+  const [modal, setModal] = React.useState(false);
+  const [addName, setAddName] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const { user } = useAuthContext();
+  const [hospitalData, setHospitalData] = React.useState([]);
+
+>>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
   return (
     <>
-    
       <div className="ContentWrapper">
         <ProfileHeader
           title={hospitalData != [] ? `${hospitalData?.name}'s Dashboard` : ``}
         />
-        
+
         <div className="AppGlass3">
+<<<<<<< HEAD
           <Card value= {noOfDoc} 
           title="Total Doctors"
           />
@@ -159,6 +171,11 @@ const noOfNurse=hospitalData?.nurses?.length;
           
         </div>
       </div>
+=======
+          <Cards />
+        </div>
+      </div>
+>>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
     </>
   );
 }

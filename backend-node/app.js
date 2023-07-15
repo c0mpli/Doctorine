@@ -8,7 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://doctorine-node.onrender.com",
+    origin: ["https://doctorine-node.onrender.com", "http://localhost:3000"],
+
     exposedHeaders: "token",
     credentials: true,
   })
