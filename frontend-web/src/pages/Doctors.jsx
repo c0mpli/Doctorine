@@ -7,6 +7,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 import { useLocation } from "react-router-dom";
+import Card from "../components/Dashboard/Card/Card";
 
 function Doctors() {
   const [modal, setModal] = React.useState(false);
@@ -82,7 +83,7 @@ function Doctors() {
             <div className="title">
               <h1>Add Doctor</h1>
               <input
-                placeholder="Name"
+                placeholder="Email"
                 type="text"
                 value={addName}
                 onChange={(e) => {
@@ -111,6 +112,7 @@ function Doctors() {
             data={doctorData}
             location={location.pathname}
           />
+          
         </div>
       </div>
     </>

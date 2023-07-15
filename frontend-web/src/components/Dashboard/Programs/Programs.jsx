@@ -10,6 +10,7 @@ import Loader from "../../Loader";
 import usefetchAddressDetails from "../../../hooks/useFetchAddressDetails";
 import { UilBed } from "@iconscout/react-unicons";
 
+
 function Programs({ data }) {
   const navigate = useNavigate();
   const { user } = useAuthContext();
@@ -17,6 +18,14 @@ function Programs({ data }) {
   const { fetchAddressDetails } = usefetchAddressDetails();
   const [mapData, setMapData] = useState();
   const location = useLocation();
+  
+
+  // const sendDoc = () => {
+    
+  //   navigate('/dashboard',
+  //     {state: { data: data }
+  //   });
+  // };
 
   function handleDelete(index) {
     axios
@@ -42,6 +51,19 @@ function Programs({ data }) {
       setMapData(data?.nurses);
     }
   }, [data]);
+
+  // if (location.pathname === "/doctor") {
+  //   const c=[data.length];
+  // }
+  // if (location.pathname === "/nurse") {
+  //   const c=[data.length];
+  // }
+
+
+// const docData = () => {
+//   const data = mapData.length;
+//   sendDoc(data);
+// };
 
   return (
     <div className="Programs">
@@ -72,18 +94,35 @@ function Programs({ data }) {
                     }}
                   />
                 </button>
+                
               </div>
             </div>
+            
           );
+          
         })}
+        {/* {mapData && (
+    <div>
+      {mapData.length > 0 ? (
+        <p>{location.pathname === "/doctor" ? {docData}: "Nurse"}</p>
+      ) : (
+        <p>No data available.</p>
+      )}
+    </div>
+  )} */}
+        
         {programs?.length === 0 && (
+          
           <div className="card-top">
             <p>No addresses. Add some to get started</p>
           </div>
         )}
       </div>
+      
     </div>
   );
+  
 }
+
 
 export default Programs;
