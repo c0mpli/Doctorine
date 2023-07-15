@@ -13,14 +13,11 @@ function Dashboard() {
   const [addName, setAddName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const { user } = useAuthContext();
-  const [hospitalData, setHospitalData] = React.useState([]);
 
   return (
     <>
       <div className="ContentWrapper">
-        <ProfileHeader
-          title={hospitalData != [] ? `${hospitalData?.name}'s Dashboard` : ``}
-        />
+        <ProfileHeader title={`${user?.userData?.password}'s Dashboard`} />
 
         <div className="AppGlass3">
           <Cards />

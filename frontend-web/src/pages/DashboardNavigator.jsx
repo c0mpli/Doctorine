@@ -13,7 +13,8 @@ function DashboardNavigator() {
       {location.pathname === "/doctor" && <Doctors />}
       {(location.pathname === "/dashboard" ||
         location.pathname === "/login" ||
-        location.pathname === "/signup") && <Dashboard />}
+        location.pathname === "/signup" ||
+        location.pathname === "/") && <Dashboard />}
 
       {location.pathname === "/nurse" && <Nurses />}
 
