@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
-import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
 import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
-import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 import { useLocation } from "react-router-dom";
 
 function Nurses() {
@@ -43,28 +41,26 @@ function Nurses() {
     // setAddress("");
   };
 
-  function getNurses() {
-    axios
-      .get(
-        `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
-        {
-          params: {
-            id: user?.userData.hospitalId[0],
-          },
-        },
-        { headers: { token: user?.token } }
-      )
-      .then((response) => {
-        setNurseData(response.data);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }
-
   useEffect(() => {
     const abortController = new AbortController();
-
+    function getNurses() {
+      axios
+        .get(
+          `${process.env.REACT_APP_BACKEND_URL}/hospital/getHospital`,
+          {
+            params: {
+              id: user?.userData.hospitalId[0],
+            },
+          },
+          { headers: { token: user?.token } }
+        )
+        .then((response) => {
+          setNurseData(response.data);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
     getNurses();
 
     return () => {
