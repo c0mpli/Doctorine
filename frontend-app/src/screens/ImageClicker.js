@@ -1,12 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useAuthContext } from "../hooks/useAuthContext";
+import axios from "axios";
 function ImageClicker() {
+  const { user } = useAuthContext();
   const navigation = useNavigation();
   let cameraRef = useRef(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [roomNumber, setRoomNumber] = useState("");
+  async function handleSave() {
+    const data = new FormData();
+    const hospitalId = user?.userData.hospitalId[0];
+    data.append("image", {
+      uri: photo.uri,
+      type: "image/jpeg",
+      name: `${new Date()}.jpg`,
+    });
+    data.append("bedNo", roomNumber);
+    data.append("hospitalId", hospitalId);
+    axios
+      .post("https://doctorine-node.onrender.com/hospital/addData", data)
+      .then((res) => {
+        console.log(res);
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+        } else {
+          console.log(error.message);
+        }
+      });
+  }
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -63,9 +91,29 @@ function ImageClicker() {
             alignSelf: "center",
             color: "white",
           }}
+          onPress={() => {
+            handleSave();
+          }}
         >
           <Text style={{ color: "white" }}>Save</Text>
         </TouchableOpacity>
+
+        <TextInput
+          style={{
+            position: "absolute",
+            top: 40,
+            alignSelf: "center",
+            width: 200,
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            backgroundColor: "white",
+          }}
+          placeholder="Enter room number"
+          keyboardType="numeric"
+          value={roomNumber}
+          onChangeText={(text) => setRoomNumber(text)}
+        />
       </View>
     );
   }

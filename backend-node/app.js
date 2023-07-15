@@ -6,7 +6,13 @@ var bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
 app.use(express.json());
-app.use(cors({ exposedHeaders: "token" }));
+app.use(
+  cors({
+    origin: "https://doctorine-node.onrender.com",
+    exposedHeaders: "token",
+    credentials: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

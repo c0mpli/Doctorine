@@ -5,13 +5,13 @@ const TopBar = ({ home }) => {
   return (
     <View>
       {home ? (
-        <View>
+        <View className="mt-6 mr-1">
           <Profile />
         </View>
       ) : (
-        <View>
-          <Profile />
+        <View className="flex-row">
           <Back />
+          <Profile />
         </View>
       )}
     </View>

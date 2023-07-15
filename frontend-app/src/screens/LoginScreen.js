@@ -20,7 +20,7 @@ export default function LoginScreen() {
       style={{ backgroundColor: themeColors.bg }}
     >
       <SafeAreaView className="flex ">
-        <View className="flex-row justify-start">
+        {/* <View className="flex-row justify-start">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
@@ -28,7 +28,7 @@ export default function LoginScreen() {
           >
             <ArrowLeftIcon size="20" color="black" />
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View className="flex-row justify-center">
           <Image
             source={require("../assets/images/Login.png")}

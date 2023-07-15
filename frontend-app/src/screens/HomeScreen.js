@@ -35,7 +35,7 @@ export default function HomeScreen() {
   }, []);
   return (
     <>
-      <SafeAreaView className="relative">
+      <SafeAreaView className="relative h-full">
         <Text className="mt-7 ml-6 font-normal text-[32px] mb-0 py-0">
           Your
         </Text>
@@ -58,8 +58,8 @@ export default function HomeScreen() {
             );
           })}
         </ScrollView>
+        <Scan />
       </SafeAreaView>
-      <Scan />
     </>
   );
 }

@@ -49,7 +49,7 @@ export const Scan = () => {
 
   return (
     <TouchableOpacity
-      className="w-16 h-16 rounded-full bg-blue-500 absolute bottom-10 right-5"
+      className="w-16 h-16 rounded-full bg-blue-500 absolute bottom-10 right-5 z-2"
       onPress={() => navigation.navigate("ImageClicker")}
     >
       <View className="mx-0.5 my-5 ">
