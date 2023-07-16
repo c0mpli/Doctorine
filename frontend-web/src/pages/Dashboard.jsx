@@ -92,44 +92,8 @@ function Dashboard() {
     };
   }, []);
 
-<<<<<<< HEAD
-const noOfDoc=hospitalData?.doctors?.length;
-const noOfNurse=hospitalData?.nurses?.length;
- 
-import DashboardNavigator from "./DashboardNavigator";
-
-function Dashboard() {
-  const [modal, setModal] = React.useState(false);
-  const [addName, setAddName] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const { user } = useAuthContext();
-  const [hospitalData, setHospitalData] = React.useState([]);
-
->>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
   return (
     <>
-      <div className="ContentWrapper">
-        <ProfileHeader
-          title={hospitalData != [] ? `${hospitalData?.name}'s Dashboard` : ``}
-        />
-
-        <div className="AppGlass3">
-          <Card value= {noOfDoc} 
-          title="Total Doctors"
-          />
-        </div>
-        <div className="AppGlass3">
-          <Card value= {noOfNurse} 
-          title="Total Nurses"
-          />
-        </div>
-        
-        
-      </div>
-=======
-  return (
-    <>
->>>>>>> f18b458ff5a66d354265c40c37ab0bc4020fc693
       {modal && (
         <div className="modalBackground">
           <div className="modalContainer">
@@ -204,12 +168,6 @@ function Dashboard() {
           />
         </div>
       </div>
-<<<<<<< HEAD
-          <Cards />
-        </div>
-      </div>
-=======
->>>>>>> f18b458ff5a66d354265c40c37ab0bc4020fc693
     </>
   );
 }
