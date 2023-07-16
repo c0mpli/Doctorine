@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Doctors from "./Doctors";
@@ -7,15 +7,20 @@ import Nurses from "./Nurses";
 import Patients from "./Patient";
 function DashboardNavigator() {
   const location = useLocation();
+  const [pathname, setPathname] = React.useState();
+  useEffect(() => {
+    setPathname(location.pathname);
+  }, [location.pathname]);
   return (
     <div className="AppGlass2">
       <Sidebar />
-      {location.pathname === "/doctor" && <Doctors />}
-      {(location.pathname === "/dashboard" ||
-        location.pathname === "/login" ||
-        location.pathname === "/signup") && <Dashboard />}
+      {pathname === "/doctor" && <Doctors />}
+      {(pathname === "/dashboard" ||
+        pathname === "/login" ||
+        pathname === "/signup" ||
+        pathname === "/") && <Dashboard />}
 
-      {location.pathname === "/nurse" && <Nurses />}
+      {pathname === "/nurse" && <Nurses />}
 
       {location.pathname === "/doctor" && <Doctors />}
       {location.pathname === "/patient" && <Patients />}

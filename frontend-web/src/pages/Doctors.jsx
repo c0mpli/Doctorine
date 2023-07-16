@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
-import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
 import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
-import usefetchAddressDetails from "../hooks/useFetchAddressDetails";
 import { useLocation } from "react-router-dom";
-import Card from "../components/Dashboard/Card/Card";
 
 function Doctors() {
   const [modal, setModal] = React.useState(false);
@@ -16,7 +13,6 @@ function Doctors() {
   const [doctorData, setDoctorData] = React.useState();
   const location = useLocation();
 
-  const { fetchAddressDetails } = usefetchAddressDetails();
   const handleSubmit = () => {
     if (!addName) {
       alert("Please fill all the fields");
@@ -33,7 +29,6 @@ function Doctors() {
         { headers: { token: user?.token } }
       )
       .then((response) => {
-        fetchAddressDetails(user?.id, user?.token);
         alert("Added Successfully");
         window.location.reload();
       });
@@ -63,7 +58,13 @@ function Doctors() {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     getDoctors();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -112,7 +113,6 @@ function Doctors() {
             data={doctorData}
             location={location.pathname}
           />
-          
         </div>
       </div>
     </>

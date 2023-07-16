@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import MainDash from "../components/Dashboard/MainDash/MainDash";
-import Sidebar from "../components/Sidebar";
 import ProfileHeader from "../components/ProfileHeader";
 import "./styles/Dashboard.css";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -25,9 +24,8 @@ function Patients() {
       .post(
         `${process.env.REACT_APP_BACKEND_URL}/hospital/addPatient`,
         {
-    
-            email: addName,
-            user: user?.id,
+          email: addName,
+          hospitalId: user?.userData.hospitalId[0],
         },
         { headers: { token: user?.token } }
       )
@@ -63,7 +61,13 @@ function Patients() {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     getPatients();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -89,7 +93,6 @@ function Patients() {
                   setAddName(e.target.value);
                 }}
               />
-              
             </div>
             <div className="footer">
               <button
@@ -106,10 +109,11 @@ function Patients() {
       <div className="ContentWrapper">
         <ProfileHeader title={"Manage Patients"} />
         <div className="AppGlass3">
-          <MainDash name="Add Patients" 
-          setModal={setModal} 
-          data={patientData}
-          location={location.pathname}
+          <MainDash
+            name="Add Patients"
+            setModal={setModal}
+            data={patientData}
+            location={location.pathname}
           />
         </div>
       </div>

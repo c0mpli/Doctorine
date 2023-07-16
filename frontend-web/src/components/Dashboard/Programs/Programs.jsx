@@ -3,25 +3,22 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import deleteIcon from "../../../imgs/delete.png";
 import "./Programs.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import Loader from "../../Loader";
 import usefetchAddressDetails from "../../../hooks/useFetchAddressDetails";
 import { UilBed } from "@iconscout/react-unicons";
 
-
-function Programs({ data }) {
-  const navigate = useNavigate();
+function Programs({ data, dashboard }) {
   const { user } = useAuthContext();
   const [programs, setPrograms] = useState();
   const { fetchAddressDetails } = usefetchAddressDetails();
   const [mapData, setMapData] = useState();
   const location = useLocation();
-  
 
   // const sendDoc = () => {
-    
+
   //   navigate('/dashboard',
   //     {state: { data: data }
   //   });
@@ -50,22 +47,43 @@ function Programs({ data }) {
     if (location.pathname === "/nurse") {
       setMapData(data?.nurses);
     }
+    if (location.pathname === "/patient") {
+      setMapData(data?.patients);
+    }
   }, [data]);
 
-  // if (location.pathname === "/doctor") {
-  //   const c=[data.length];
-  // }
-  // if (location.pathname === "/nurse") {
-  //   const c=[data.length];
-  // }
-
-
-// const docData = () => {
-//   const data = mapData.length;
-//   sendDoc(data);
-// };
-
-  return (
+  return dashboard ? (
+    <div className="Programs">
+      <div>
+        {!data && <Loader />}
+        {data?.map((item, key) => {
+          return (
+            <div className="card" key={key}>
+              <div className="card-top">
+                <h1>{item.doctorData[1]}</h1>
+                <p>{item.doctorData[0]}</p>
+              </div>
+              <div className="card-top">
+                <h1>{item.nurseData[1]}</h1>
+                <p>{item.nurseData[0]}</p>
+              </div>
+              <div className="card-top">
+                <h1>{item.patientData[1]}</h1>
+                <p>{item.patientData[0]}</p>
+              </div>
+              <div className="card-bottom">
+                <div className="bed">
+                  <UilBed />
+                  <p style={{ marginBottom: "0.3rem" }}> {item.bedData[0]}</p>
+                </div>
+                <button className="deleteButton">Edit</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  ) : (
     <div className="Programs">
       <div>
         {!data && <Loader />}
@@ -94,12 +112,9 @@ function Programs({ data }) {
                     }}
                   />
                 </button>
-                
               </div>
             </div>
-            
           );
-          
         })}
         {/* {mapData && (
     <div>
@@ -110,19 +125,15 @@ function Programs({ data }) {
       )}
     </div>
   )} */}
-        
+
         {programs?.length === 0 && (
-          
           <div className="card-top">
             <p>No addresses. Add some to get started</p>
           </div>
         )}
       </div>
-      
     </div>
   );
-  
 }
-
 
 export default Programs;

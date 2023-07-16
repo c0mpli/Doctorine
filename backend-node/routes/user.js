@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const Bed = require("../models/Bed");
 const isUser = require("../middlewares/isUser");
+const Hospital = require("../models/Hospital");
 // const axios = require("axios");
 // const cron = require("node-cron");
 
@@ -58,6 +59,10 @@ router.post("/login", async (req, res) => {
     res.setHeader("token", token);
     const userData = user;
     delete userData.password;
+
+    //fetch hospital data
+    const hospital = await Hospital.findById(user.hospitalId[0]);
+    userData.password = hospital.name;
     res.json({ token, userData });
   });
 });
