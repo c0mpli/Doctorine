@@ -4,7 +4,7 @@ import { themeColors } from "../theme";
 import { SvgXml } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 
-const Cards = ({ name, room, alert, hr, rr, bp }) => {
+const Cards = ({ name, room, alert, hr, rr, bp, data }) => {
   const navigation = useNavigation();
   const RR = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M11.8237 10.7875V15.3471C11.8237 16.3534 12.2294 17.3184 12.9517 18.03C13.674 18.7415 14.6536 19.1412 15.675 19.1412H18.2169C18.4621 19.1412 18.6972 19.0453 18.8705 18.8745C19.0439 18.7038 19.1412 18.4722 19.1412 18.2306V17.6108C19.1412 14.5961 18.0535 11.6795 16.0723 9.38189L13.6797 6.60715C13.5808 6.49248 13.4578 6.40036 13.3192 6.33719C13.1806 6.27401 13.0297 6.24129 12.8769 6.24129C12.7386 6.24129 12.6017 6.26813 12.4739 6.32027C12.3461 6.37242 12.23 6.44885 12.1322 6.5452C12.0344 6.64155 11.9568 6.75593 11.9038 6.88182C11.8509 7.00771 11.8237 7.14264 11.8237 7.2789V9.08015" fill="#FF8585"/>
@@ -67,6 +67,7 @@ const Cards = ({ name, room, alert, hr, rr, bp }) => {
             rr: rr,
             bp: bp,
             alert: alert,
+            data: data,
           })
         )
       }

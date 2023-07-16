@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   DatePickerIOSBase,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Cards from "../components/Cards";
 import { Scan } from "../components/Buttons";
@@ -18,9 +18,13 @@ import { useRoute } from "@react-navigation/native";
 export default function HomeScreen() {
   const { user } = useAuthContext();
   const [data, setData] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [counter, setCounter] = useState(0);
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
   const route = useRoute();
   function getData() {
-    const patientId = user?.userData.patientId;
+    const patientId = user?.userData?.patientId;
     for (let i = 0; i < patientId.length; i++) {
       axios
         .get(`https://doctorine-node.onrender.com/user/user/`, {
@@ -29,7 +33,10 @@ export default function HomeScreen() {
           },
         })
         .then((res) => {
-          setData((prev) => [...prev, res.data]);
+          setName(res.data.name);
+          setRoom(res.data.bedId[0]);
+          setData(res.data.data);
+          setCardData(res.data.data[0]);
         })
         .catch((err) => {
           console.log(err);
@@ -37,9 +44,26 @@ export default function HomeScreen() {
     }
   }
 
-  useEffect(() => {
+  useMemo(() => {
     getData();
   }, [route]);
+
+  function changeCardData() {
+    if (counter < data.length - 1) {
+      setCounter(counter + 1);
+      setCardData(data[counter + 1]);
+    } else {
+      setCounter(0);
+      setCardData(data[0]);
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      changeCardData();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [cardData]);
   return (
     <>
       <SafeAreaView className="relative h-full">
@@ -51,20 +75,15 @@ export default function HomeScreen() {
         <TopBar home={true} />
 
         <ScrollView>
-          {data?.map((item, i) => {
-            //console.log(item.data);
-            return (
-              <Cards
-                key={i}
-                name={item.name}
-                room={item.bedId[0]}
-                rr={item.data[item.data.length - 1]?.RR || null}
-                hr={item.data[item.data.length - 1]?.HR || null}
-                bp={item.data[item.data.length - 1]?.SBP}
-                alert={item.data[item.data.length - 1]?.alert}
-              />
-            );
-          })}
+          <Cards
+            hr={cardData.HR}
+            rr={cardData.RR}
+            bp={cardData.SBP}
+            alert={cardData.alert}
+            name={name}
+            room={room}
+            data={data}
+          />
         </ScrollView>
         <Scan />
       </SafeAreaView>

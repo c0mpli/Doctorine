@@ -5,13 +5,28 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const isAdmin = require("../middlewares/isAdmin");
 const axios = require("axios");
-const cron = require("node-cron");
 const Hospital = require("../models/Hospital");
 const Bed = require("../models/Bed");
 const FormData = require("form-data");
 const fs = require("fs");
 const multer = require("multer");
-const { json } = require("body-parser");
+const path = require("path");
+const { Server } = require("socket.io");
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath(ffmpegPath);
+
+const io = new Server(3000);
+
+io.on("connection", (socket) => {
+  // send a message to the client
+  socket.emit("hello from server", 1, "2", { 3: Buffer.from([4]) });
+
+  // receive a message from the client
+  socket.on("hello from client", (...args) => {
+    // ...
+  });
+});
 
 router.post("/create", async (req, res) => {
   const { name, numberOfBeds, address, admins, doctors, nurses } = req.body;
@@ -364,5 +379,90 @@ router.post("/addData", upload.single("image"), async (req, res) => {
       res.status(500).json({ error: error });
     });
 });
+
+router.post("/extractframes", async (req, res) => {
+  const videoPath = `C:/Users/jashd/OneDrive/Documents/Github/Personal Projects/Doctorine/backend-node/routes/a.mp4`;
+  const outputDir = `C:/Users/jashd/OneDrive/Documents/Github/Personal Projects/Doctorine/backend-node/output`;
+  const fps = 110;
+  try {
+    ffmpeg({ source: "./routes/a.mp4" })
+      .on("filenames", (filenames) => {
+        console.log("oppp");
+      })
+      .on("end", () => {
+        console.log("finished");
+      })
+      .on("error", (err) => {
+        console.log(err);
+      })
+      .takeScreenshots(
+        {
+          filename: "output.png",
+          timemarks: [
+            8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+            25, 26, 27, 28, 29, 30,
+          ],
+        },
+        "output"
+      );
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/postframes", async (req, res) => {
+  const folderPath = "./output/";
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error("Error reading folder:", err);
+      return;
+    }
+
+    // Filter out image files
+    const imageFiles = files.filter((file) => {
+      const extension = path.extname(file).toLowerCase();
+      return [".jpg", ".jpeg", ".png", ".gif"].includes(extension);
+    });
+
+    // Process each image file
+    const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+    try {
+      async function load() {
+        // We need to wrap the loop into an async function for this to work
+        for (var i = 0; i < imageFiles.length; i++) {
+          const imagePath = path.join(folderPath, imageFiles[i]);
+          console.log("Processing image:", imagePath);
+          sendFlask(imagePath);
+
+          await timer(3000); // then the created Promise can be awaited
+        }
+      }
+
+      load();
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
+  });
+});
+
+async function sendFlask(imagePath) {
+  const formData = new FormData();
+  formData.append("file", fs.createReadStream(imagePath));
+  axios
+    .post(`${process.env.FLASK_URI}/predict`, formData, {
+      headers: formData.getHeaders(),
+    })
+    .then(async (response) => {
+      const data = response.data;
+      if (data.HR != 0 && data.SBP != 0 && data.RR != 0) console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+async function sendSocket() {
+  //
+}
 
 module.exports = router;

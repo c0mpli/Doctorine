@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from yolov7.setup import inference
 import os.path
 from flask_cors import CORS, cross_origin
-
+import cv2
 
 import pandas as pd
 # import joblib
@@ -143,6 +143,46 @@ def upload_image():
                                     sub_heading="There's a high chance that you are diagnosed with a heart Disease. We Suggest you to consult a doctor to make sure of your Health Condition. Please Note that the results are based upon Artificial Intelligence",
                                     go_back=False
                                     )
+
+
+import cv2
+@app.route('/extract', methods = ['POST'])
+def extract_frames():
+    # Open the video file
+    video_path = request.video_path
+    output_folder = request.output_folder
+    video = cv2.VideoCapture(video_path)
+
+    # Check if video file is opened successfully
+    if not video.isOpened():
+        print("Error opening video file")
+        return
+
+    # Create the output folder if it doesn't exist
+    os.makedirs(output_folder, exist_ok=True)
+
+    frame_count = 0
+
+    # Read frames from the video
+    while True:
+        # Read the next frame
+        success, frame = video.read()
+
+        if not success:
+            # End of video
+            break
+
+        # Save the frame as an image file
+        output_path = os.path.join(output_folder, f"frame_{frame_count}.jpg")
+        cv2.imwrite(output_path, frame)
+
+        frame_count += 1
+
+    # Release the video file
+    video.release()
+
+    print(f"Extracted {frame_count} frames")
+
 
 extra_dirs = ['./static/styles','./static/js','./templates']
 extra_files = extra_dirs[:]
