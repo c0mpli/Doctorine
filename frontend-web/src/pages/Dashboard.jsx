@@ -74,7 +74,6 @@ function Dashboard() {
 const noOfDoc=hospitalData?.doctors?.length;
 const noOfNurse=hospitalData?.nurses?.length;
  
-=======
 import DashboardNavigator from "./DashboardNavigator";
 
 function Dashboard() {
@@ -93,7 +92,6 @@ function Dashboard() {
         />
 
         <div className="AppGlass3">
-<<<<<<< HEAD
           <Card value= {noOfDoc} 
           title="Total Doctors"
           />
@@ -104,7 +102,6 @@ function Dashboard() {
           />
         </div>
         
-        <DashboardNavigator/>
         
       </div>
       {modal && (
@@ -171,11 +168,9 @@ function Dashboard() {
           
         </div>
       </div>
-=======
           <Cards />
         </div>
       </div>
->>>>>>> 818bc528127db450f522c5edc5f5a7a67449776c
     </>
   );
 }
